@@ -91,6 +91,7 @@
     <Compile Include="Converters\IngredientToColorConverter.cs" />
     <Compile Include="Converters\IngredientToForegroundConverter.cs" />
     <Compile Include="Converters\NullToBoolConverter.cs" />
+    <Compile Include="Helpers\IngredientHelper.cs" />
     <Compile Include="Models\Step.cs" />
     <Compile Include="SimulateDispense.cs" />
     <Compile Include="ViewModels\DispenseProtocolEditorViewModel.cs" />
