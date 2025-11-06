@@ -45,11 +45,12 @@ namespace RMIDispenseSequenceEditor.Views
             // Sort dictionary keys ascending (insertion order)
             var ordered = vm.InsertSequence.OrderBy(kv => kv.Key).ToList();
 
-            // Reverse iteration so items stack from bottom first
-            //for (int i = ordered.Count - 1; i >= 0; i--)
+            
             // Load color dictionary
             var dict = (ResourceDictionary)Application.LoadComponent(
                 new Uri("/RMIDispenseSequenceEditor;component/Styles/IngredientsColors.xaml", UriKind.Relative));
+
+            IEasingFunction ease = new QuadraticEase { EasingMode = EasingMode.EaseOut };
 
             // Animate in insertion order (top-down)
             for (int i = 0; i < ordered.Count; i++)
@@ -86,18 +87,7 @@ namespace RMIDispenseSequenceEditor.Views
                     if (border == null || text == null)
                         continue;
 
-
-                    // Reset visuals
-                    border.Opacity = 0;
-                    text.Opacity = 0;
-
-                    // Start slightly above their final position (like “falling into place”)
-                    TranslateTransform borderTT = new TranslateTransform { Y = -15 };
-                    TranslateTransform textTT = new TranslateTransform { Y = -20 };
-                    border.RenderTransform = borderTT;
-                    text.RenderTransform = textTT;
                     
-
                     // Determine color from IngredientsColors.xaml
                     Color targetColor = Colors.LightGray;
                     if (name.Equals("Protein", StringComparison.OrdinalIgnoreCase))
@@ -112,19 +102,35 @@ namespace RMIDispenseSequenceEditor.Views
                         targetColor = ((SolidColorBrush)dict["FragmentBrush"]).Color;
 
                     // Use new unfrozen brushes
-                    SolidColorBrush animBack = new SolidColorBrush(Colors.Transparent);
-                    SolidColorBrush animBorder = new SolidColorBrush(Colors.Transparent);
+                    var animBack = new SolidColorBrush(Colors.Transparent);
+                    var animBorder = new SolidColorBrush(Colors.Transparent);
                     border.Background = animBack;
                     border.BorderBrush = animBorder;
 
+                    
+                    // Set initial Y offset (start above)
+                    var borderTT = new TranslateTransform { Y = -50 };
+                    var textTT = new TranslateTransform { Y = -50 };
+                    border.RenderTransform = borderTT;
+                    text.RenderTransform = textTT;
 
-                    IEasingFunction ease = new QuadraticEase { EasingMode = EasingMode.EaseOut };
+                    border.Opacity = 0;
+                    text.Opacity = 0;
 
                     // Animations
-                    var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(400)) { EasingFunction = ease };
-                    var fall = new DoubleAnimation(-15, 0, TimeSpan.FromMilliseconds(400))
+                    var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(300))
                     {
-                        EasingFunction = new BounceEase { Bounces = 1, Bounciness = 2, EasingMode = EasingMode.EaseOut }
+                        EasingFunction = ease
+                    };
+
+                    var fall = new DoubleAnimation(-50, 0, TimeSpan.FromMilliseconds(1000))
+                    {
+                        EasingFunction = new BounceEase
+                        {
+                            Bounces = 0,
+                            Bounciness = 5,
+                            EasingMode = EasingMode.EaseOut
+                        }
                     };
 
                     var colorAnim = new ColorAnimation
@@ -134,27 +140,17 @@ namespace RMIDispenseSequenceEditor.Views
                         Duration = new Duration(TimeSpan.FromMilliseconds(400))
                     };
 
-                    var textFade = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(400))
-                    {
-                        BeginTime = TimeSpan.FromMilliseconds(80),
-                        EasingFunction = ease
-                    };
-                    var textFall = new DoubleAnimation(-20, 0, TimeSpan.FromMilliseconds(400))
-                    {
-                        BeginTime = TimeSpan.FromMilliseconds(80),
-                        EasingFunction = ease
-                    };
-
-                    // Apply animations
+                    // Apply
                     border.BeginAnimation(UIElement.OpacityProperty, fadeIn);
                     borderTT.BeginAnimation(TranslateTransform.YProperty, fall);
                     animBack.BeginAnimation(SolidColorBrush.ColorProperty, colorAnim);
                     animBorder.BeginAnimation(SolidColorBrush.ColorProperty, colorAnim);
 
-                    text.BeginAnimation(UIElement.OpacityProperty, textFade);
-                    textTT.BeginAnimation(TranslateTransform.YProperty, textFall);
+                    text.BeginAnimation(UIElement.OpacityProperty, fadeIn);
+                    textTT.BeginAnimation(TranslateTransform.YProperty, fall);
 
                     await Task.Delay(staggerMs);
+                 
                 }
             }
         }
