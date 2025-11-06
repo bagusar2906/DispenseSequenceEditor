@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,23 +16,44 @@ namespace RMIDispenseSequenceEditor.Views
             InitializeComponent();
         }
 
-        public async Task PlayFallingAnimationAsync(int staggerMs = 100)
+        public async Task PlayStackingAnimationAsync(int staggerMs = 100)
         {
-            var columns = new[] { Column1List, Column2List, Column3List };
-            foreach (var list in columns)
-            {
-                if (list == null) continue;
-                await AnimateColumnAsync(list, staggerMs);
-            }
-        }
+            var vm = DataContext as IngredientsTableViewModel;
+            if (vm == null)
+                return;
 
-        private async Task AnimateColumnAsync(ItemsControl itemsControl, int staggerMs)
-        {
-            for (int i = itemsControl.Items.Count - 1; i >= 0; i--)
+            // Sort dictionary keys ascending (insertion order)
+            var ordered = vm.InsertSequence.OrderBy(kv => kv.Key).ToList();
+
+            // Reverse iteration so items stack from bottom first
+           //for (int i = ordered.Count - 1; i >= 0; i--)
+           for (int i = 0; i < ordered.Count; i++)
             {
-                var item = itemsControl.Items[i];
-                itemsControl.UpdateLayout();
-                if (itemsControl.ItemContainerGenerator.ContainerFromItem(item) is FrameworkElement container)
+                var kvp = ordered[i];
+                var parts = kvp.Value.Split(':');
+                if (parts.Length != 2) continue;
+
+                int col = int.Parse(parts[0]);
+                string name = parts[1];
+
+                ItemsControl list = null;
+                switch (col)
+                {
+                    case 1:
+                        list = Column1List;
+                        break;
+                    case 2:
+                        list = Column2List;
+                        break;
+                    case 3:
+                        list = Column3List;
+                        break;
+                    default: continue;
+                }
+
+                list.UpdateLayout();
+
+                if (list.ItemContainerGenerator.ContainerFromItem(name) is FrameworkElement container)
                 {
                     var text = FindVisualChild<TextBlock>(container);
                     if (text == null) continue;
@@ -40,29 +62,34 @@ namespace RMIDispenseSequenceEditor.Views
                     var tt = text.RenderTransform as TranslateTransform;
                     if (tt != null)
                     {
-                        tt = new TranslateTransform { Y = -15 };
+                        tt = new TranslateTransform { Y = 15 }; // Start below, not above
                         text.RenderTransform = tt;
                     }
 
+                    // Fade-in and lift-up animation
                     var fade = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(400))
                     {
                         EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
                     };
 
-                    var fall = new DoubleAnimation(15, 0, TimeSpan.FromMilliseconds(400)) // instead of -15 → 0
+                    var rise = new DoubleAnimation(15, 0, TimeSpan.FromMilliseconds(400))
                     {
-                        EasingFunction = new QuadraticEase { EasingMode = EasingMode.EaseOut }
+                        EasingFunction = new BounceEase
+                        {
+                            Bounces = 1,
+                            Bounciness = 2,
+                            EasingMode = EasingMode.EaseOut
+                        }
                     };
 
-                   
-
                     text.BeginAnimation(UIElement.OpacityProperty, fade);
-                    tt.BeginAnimation(TranslateTransform.YProperty, fall);
+                    tt.BeginAnimation(TranslateTransform.YProperty, rise);
 
                     await Task.Delay(staggerMs);
                 }
             }
         }
+
 
         private static T FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
         {
@@ -74,6 +101,7 @@ namespace RMIDispenseSequenceEditor.Views
                 var result = FindVisualChild<T>(child);
                 if (result != null) return result;
             }
+
             return null;
         }
     }

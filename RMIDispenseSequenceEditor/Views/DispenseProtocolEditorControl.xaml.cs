@@ -29,7 +29,7 @@ namespace RMIDispenseSequenceEditor.Views
             {
                 vm.PreviewResultCompleted += async (_, __) =>
                 {
-                    await IngredientsTable.PlayFallingAnimationAsync(500);
+                    await IngredientsTable.PlayStackingAnimationAsync(500);
                 };
             }
         }

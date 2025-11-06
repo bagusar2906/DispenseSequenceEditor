@@ -28,9 +28,7 @@ namespace RMIDispenseSequenceEditor.ViewModels
         public ICommand SelectUpCommand { get; set; }
         public ICommand SelectDownCommand { get; set; }
 
-        private readonly IDictionary<int, ObservableCollection<string>> _ingredientsColumns =
-            new Dictionary<int, ObservableCollection<string>>();
-
+        
         public DispenseProtocolEditorViewModel()
         {
             AddStepCommand = new RelayCommand(AddStepCommandHandler);
@@ -49,27 +47,19 @@ namespace RMIDispenseSequenceEditor.ViewModels
             IngredientsTable.Column1Ingredients = new ObservableCollection<string>();
             IngredientsTable.Column2Ingredients = new ObservableCollection<string>();
             IngredientsTable.Column3Ingredients = new ObservableCollection<string>();
-            _ingredientsColumns[1] = IngredientsTable.Column1Ingredients;
-            _ingredientsColumns[2] = IngredientsTable.Column2Ingredients;
-            _ingredientsColumns[3] = IngredientsTable.Column3Ingredients;
-            
+
         }
 
         private void PreviewCommandHandler(object obj)
         {
-            IngredientsTable.Column1Ingredients.Clear();
-            IngredientsTable.Column2Ingredients.Clear();
-            IngredientsTable.Column3Ingredients.Clear();
-            foreach (var ingredientsColumnsValue in _ingredientsColumns.Values)
-            {
-                ingredientsColumnsValue.Clear();
-            }
+            IngredientsTable.ClearAll();
+            
 
             for (int j = 1; j <= 3; j++)
             {
 
 
-                foreach (var step in Steps.Reverse())
+                foreach (var step in Steps)
                 {
 
                     if (step.IsDispensedAcrossColumnsFirst && j == 1)
@@ -81,11 +71,11 @@ namespace RMIDispenseSequenceEditor.ViewModels
                             // dispense all together
                             foreach (var ingredient in step.ParallelIngredients)
                             {
-                                _ingredientsColumns[i].Add(ingredient);
+                                IngredientsTable.AddIngredient(i, ingredient);
                             }
 
                         }
-                        PreviewResultCompleted?.Invoke(this, EventArgs.Empty);
+                      //  PreviewResultCompleted?.Invoke(this, EventArgs.Empty);
                         //Thread.Sleep(5000);
                         continue;
                     }
@@ -93,7 +83,7 @@ namespace RMIDispenseSequenceEditor.ViewModels
                     foreach (var ingredient in step.ParallelIngredients)
                     {
                         if (!step.IsDispensedAcrossColumnsFirst)
-                            _ingredientsColumns[j].Add(ingredient);
+                            IngredientsTable.AddIngredient(j, ingredient);
                     }
 
                 }
