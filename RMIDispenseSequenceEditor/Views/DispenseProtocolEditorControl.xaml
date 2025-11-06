@@ -1,0 +1,225 @@
+﻿<UserControl x:Class="RMIDispenseSequenceEditor.Views.DispenseProtocolEditorControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:RMIDispenseSequenceEditor.ViewModels"
+             xmlns:models="clr-namespace:RMIDispenseSequenceEditor.Models"
+             xmlns:converters="clr-namespace:RMIDispenseSequenceEditor.Converters"
+             xmlns:views="clr-namespace:RMIDispenseSequenceEditor.Views">
+
+    <UserControl.DataContext>
+        <vm:DispenseProtocolEditorViewModel />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <converters:IngredientCheckBoxLabelConverter x:Key="CheckBoxLabelConverter" />
+        <converters:CheckBoxVisibilityConverter x:Key="CheckBoxVisibilityConverter" />
+    </UserControl.Resources>
+    <UserControl.InputBindings>
+        <!-- Navigation -->
+        <KeyBinding Key="Up" Command="{Binding SelectUpCommand}" />
+        <KeyBinding Key="Down" Command="{Binding SelectDownCommand}" />
+
+        <!-- Reordering -->
+        <KeyBinding Modifiers="Control" Key="Up" Command="{Binding MoveUpCommand}" />
+        <KeyBinding Modifiers="Control" Key="Down" Command="{Binding MoveDownCommand}" />
+    </UserControl.InputBindings>
+
+    <Grid Background="{StaticResource PrimaryBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Toolbar -->
+        <StackPanel Orientation="Horizontal" Margin="8" Width="600">
+            <Grid Background="{StaticResource PrimaryBackground}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+
+                <!--<ComboBox Width="150"
+                      ItemsSource="{Binding DataContext.Ingredients,
+                                                RelativeSource={RelativeSource AncestorType=UserControl}}"
+                      SelectedItem="{Binding SelectedIngredient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />-->
+
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" Width="600"
+                              VerticalScrollBarVisibility="Disabled"
+                              Margin="0,5,0,0">
+                    <ListBox
+                        ItemsSource="{Binding DataContext.Ingredients,
+                                   RelativeSource={RelativeSource AncestorType=UserControl}}"
+                        SelectedItem="{Binding SelectedIngredient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                        BorderThickness="0"
+                        Background="Transparent">
+                        <!-- Horizontal layout -->
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+
+                        <!-- Item container visuals -->
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Margin" Value="4,0,4,0" />
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                <Style.Triggers>
+                                    <!-- Hover overlay -->
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="0.9" />
+                                    </Trigger>
+                                    <!-- Selected overlay -->
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Opacity" Value="1" />
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect BlurRadius="8" Color="#55000000" ShadowDepth="2" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+
+                        <!-- Ingredient visual -->
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource IngredientBorderStyle}">
+                                    <TextBlock Text="{Binding}"
+                                               Style="{StaticResource IngredientTextStyle}"
+                                               FontWeight="SemiBold"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                               TextAlignment="Center" />
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </ScrollViewer>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Height="30" 
+                            Margin="0,20,0,0"
+                            HorizontalAlignment="Center">
+                    <Button Command="{Binding AddStepCommand}" ToolTip="Add Step" Margin="2">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                       Text=""
+                                       FontSize="18"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button Command="{Binding AddParallelStepCommand}" ToolTip="Add Parallel" Margin="5,0,0,0">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                       Text=""
+                                       FontSize="16"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding RemoveStepCommand}" ToolTip="Remove Step" Margin="5,0,0,0">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock FontFamily="Segoe MDL2 Assets"
+                                       Text=""
+                                       FontSize="18"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button Content="▲"
+                            Command="{Binding MoveUpCommand}"
+                            IsEnabled="{Binding CanMoveUp}"
+                            FontSize="14" Width="20" Margin="4,0,0,0" />
+
+                    <Button Content="▼"
+                            Command="{Binding MoveDownCommand}"
+                            IsEnabled="{Binding CanMoveDown}"
+                            FontSize="14" Width="20" Margin="4,0,0,0" />
+                    <Button Content="Preview Result"
+                            Command="{Binding PreviewCommand}"
+                            IsEnabled="{Binding CanPreview}"
+                            FontSize="14" Width="100" Margin="4,0,0,0" />
+                </StackPanel>
+                <!-- <Button Content="Save" Click="SaveSteps_Click" Margin="10,0,0,0"/> -->
+                <!-- <Button Content="Load" Click="LoadSteps_Click" Margin="5,0,0,0"/> -->
+            </Grid>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="250" />
+            </Grid.ColumnDefinitions>
+            <!-- Main Step List -->
+            <ListBox Grid.Column="0" x:Name="StepList"
+                    
+                     ItemsSource="{Binding Steps}"
+                     SelectedItem="{Binding SelectedStep}"
+                     AllowDrop="True"
+                     PreviewMouseLeftButtonDown="StepList_PreviewMouseLeftButtonDown"
+                     MouseMove="StepList_MouseMove"
+                     Drop="StepList_Drop"
+                     Background="{StaticResource CardBackground}"
+                     BorderBrush="{StaticResource BorderBrush}"
+                     BorderThickness="1"
+                     Margin="2">
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type models:Step}">
+                        <Border Style="{StaticResource IngredientBorderStyle}">
+
+                            <DockPanel Margin="20,5,0,5" LastChildFill="False">
+
+                                <!-- Parallel items -->
+                                <ItemsControl ItemsSource="{Binding ParallelIngredients}"
+                                              PreviewMouseLeftButtonDown="ParallelItemsControl_PreviewMouseLeftButtonDown"
+                                              PreviewMouseMove="ParallelItemsControl_PreviewMouseMove"
+                                              Drop="ParallelItemsControl_Drop"
+                                              AllowDrop="True"
+                                              HorizontalAlignment="Center"
+                                              DockPanel.Dock="Left">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Style="{StaticResource IngredientBorderStyle}">
+                                                <TextBlock Text="{Binding}"
+                                                           Style="{StaticResource IngredientTextStyle}" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <!-- ✅ Checkbox aligned right -->
+                                <CheckBox
+                                    Content="{Binding ParallelIngredients, Converter={StaticResource CheckBoxLabelConverter}}"
+                                    FontSize="12"
+                                    Foreground="#555"
+                                    IsChecked="{Binding IsDispensedAcrossColumnsFirst, Mode=TwoWay}"
+                                    Visibility="{Binding ParallelIngredients[0], Converter={StaticResource CheckBoxVisibilityConverter}}"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
+                                    Margin="20,0,20,0" />
+
+                            </DockPanel>
+
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <views:IngredientsTableControl Grid.Column="1" />
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,67 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Base brushes -->
+    <SolidColorBrush x:Key="ProteinBrush" Color="#FFCCE5FF"/>
+    <!-- Light blue -->
+    <SolidColorBrush x:Key="OtherIngredientBrush" Color="#FFD5F5C2"/>
+    <!-- Light green -->
+    <SolidColorBrush x:Key="HoverOverlay" Color="#22000000"/>
+    <!-- Transparent gray overlay -->
+    <SolidColorBrush x:Key="SelectedOverlay" Color="#44000000"/>
+    <!-- Stronger overlay -->
+
+    <!-- Border Style for Ingredient Items -->
+    <Style x:Key="IngredientBorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="#F0F0F0"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="BorderBrush" Value="#CCC"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <!-- <Setter Property="Width" Value="200"/> -->
+        <!-- <Setter Property="Padding" Value="5"/> -->
+        <Setter Property="Margin" Value="20,2,20,2"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding}" Value="Well">
+                <Setter Property="Background" Value="#90CAF9"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Buffer">
+                <Setter Property="Background" Value="#FFF59D"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Protein">
+                <Setter Property="Background" Value="#F48FB1"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Seed">
+                <Setter Property="Background" Value="#A5D6A7"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Fragment">
+                <Setter Property="Background" Value="#FFFACD"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Text Style for Ingredient Items -->
+    <Style x:Key="IngredientTextStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="Black"/>
+        <!-- <Setter Property="VerticalAlignment" Value="Center"/> -->
+        <!-- <Setter Property="TextAlignment" Value="Center"/> -->
+        <Setter Property="Margin" Value="5"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding}" Value="Protein">
+                <Setter Property="Foreground" Value="#660000"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Buffer">
+                <Setter Property="Foreground" Value="#004400"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Well">
+                <Setter Property="Foreground" Value="#002266"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Seed">
+                <Setter Property="Foreground" Value="#663300"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding}" Value="Fragment">
+                <Setter Property="Foreground" Value="#665500"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>
