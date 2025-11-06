@@ -5,40 +5,43 @@ namespace RMIDispenseSequenceEditor.ViewModels
 {
     public class IngredientsTableViewModel : INotifyPropertyChanged
     {
+        private ObservableCollection<string> _column1Ingredients ;
+        public ObservableCollection<string> Column1Ingredients
+        {
+            get => _column1Ingredients;
+            set
+            {
+                _column1Ingredients = value;
+                OnPropertyChanged(nameof(Column1Ingredients));
+            }
+        }
+
+        private ObservableCollection<string> _column2Ingredients ;
+        public ObservableCollection<string> Column2Ingredients
+        {
+            get => _column2Ingredients;
+            set
+            {
+                _column2Ingredients = value;
+                OnPropertyChanged(nameof(Column2Ingredients));
+            }
+        }
+
+        private ObservableCollection<string> _column3Ingredients ;
+        public ObservableCollection<string> Column3Ingredients
+        {
+            get => _column3Ingredients;
+            set
+            {
+                _column3Ingredients = value;
+                OnPropertyChanged(nameof(Column3Ingredients));
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<string> Column1Ingredients { get; set; }
-        public ObservableCollection<string> Column2Ingredients { get; set; }
-        public ObservableCollection<string> Column3Ingredients { get; set; }
-
-        public IngredientsTableViewModel()
-        {
-            // Example content for each column
-            Column1Ingredients = new ObservableCollection<string>
-            {
-                "Protein",
-                "Well",
-                "Seed"
-            };
-
-            Column2Ingredients = new ObservableCollection<string>
-            {
-                "Seed",
-                "Protein",
-                "Well"
-            };
-
-            Column3Ingredients = new ObservableCollection<string>
-            {
-                "Seed",
-                "Protein",
-                "Well"
-            };
-        }
-
-        protected void OnPropertyChanged(string name)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
+        private void OnPropertyChanged(string propertyName) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+
 }

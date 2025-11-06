@@ -219,7 +219,9 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <views:IngredientsTableControl Grid.Column="1" />
+            <views:IngredientsTableControl 
+                DataContext="{Binding IngredientsTable}"
+                Grid.Column="1" />
         </Grid>
     </Grid>
 </UserControl>

@@ -1,6 +1,7 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading;
 using System.Windows.Input;
 using RMIDispenseSequenceEditor.Models;
 
@@ -8,6 +9,7 @@ namespace RMIDispenseSequenceEditor.ViewModels
 {
   public class DispenseProtocolEditorViewModel : INotifyPropertyChanged
     {
+        public IngredientsTableViewModel IngredientsTable { get; }
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand AddStepCommand { get; set; }
@@ -15,13 +17,16 @@ namespace RMIDispenseSequenceEditor.ViewModels
         public ICommand RemoveStepCommand { get; set; }
         public ICommand AddParallelStepCommand { get; set; }
         
+        public ICommand PreviewCommand { get; set; }
+        
         public ICommand MoveUpCommand { get; set; }
         public ICommand MoveDownCommand { get; set; }
         public ICommand SelectUpCommand { get; set; }
         public ICommand SelectDownCommand { get; set; }
-        
-        
-        
+
+        private IDictionary<int, ObservableCollection<string>> _ingredientsColumns =
+            new Dictionary<int, ObservableCollection<string>>();
+
         public DispenseProtocolEditorViewModel()
         {
             AddStepCommand = new RelayCommand(AddStepCommandHandler);
@@ -33,14 +38,68 @@ namespace RMIDispenseSequenceEditor.ViewModels
 
             SelectUpCommand = new RelayCommand(SelectUpCommandHandler, _ => CanSelectUp);
             SelectDownCommand = new RelayCommand(SelectDownCommandHandler, _ => CanSelectDown);
-
+            PreviewCommand = new RelayCommand(PreviewCommandHandler);
             
             SelectedIngredient = Ingredients[0];
+            IngredientsTable = new IngredientsTableViewModel();
+            IngredientsTable.Column1Ingredients = new ObservableCollection<string>();
+            IngredientsTable.Column2Ingredients = new ObservableCollection<string>();
+            IngredientsTable.Column3Ingredients = new ObservableCollection<string>();
+            _ingredientsColumns[1] = IngredientsTable.Column1Ingredients;
+            _ingredientsColumns[2] = IngredientsTable.Column2Ingredients;
+            _ingredientsColumns[3] = IngredientsTable.Column3Ingredients;
+            
         }
-        
+
+        private void PreviewCommandHandler(object obj)
+        {
+            IngredientsTable.Column1Ingredients.Clear();
+            IngredientsTable.Column2Ingredients.Clear();
+            IngredientsTable.Column3Ingredients.Clear();
+            foreach (var ingredientsColumnsValue in _ingredientsColumns.Values)
+            {
+                ingredientsColumnsValue.Clear();
+            }
+
+            for (int j = 1; j <= 3; j++)
+            {
+
+
+                foreach (var step in Steps)
+                {
+
+                    if (step.IsDispensedAcrossColumnsFirst && j == 1)
+                    {
+                        // dispense to all columns
+                        for (int i = 1; i <= 3; i++)
+                        {
+
+                            // dispense all together
+                            foreach (var ingredient in step.ParallelIngredients)
+                            {
+                                _ingredientsColumns[i].Add(ingredient);
+                            }
+
+                        }
+                        continue;
+                    }
+                    
+                    foreach (var ingredient in step.ParallelIngredients)
+                    {
+                        if (!step.IsDispensedAcrossColumnsFirst)
+                            _ingredientsColumns[j].Add(ingredient);
+                    }
+
+                }
+            }
+            // Example content for each column
+            
+        }
+
         public bool CanSelectUp => SelectedStep != null && Steps.IndexOf(SelectedStep) > 0;
         public bool CanSelectDown => SelectedStep != null && Steps.IndexOf(SelectedStep) < Steps.Count - 1;
 
+        public bool CanPreview => Steps.Count > 0;
         private void SelectUpCommandHandler(object obj)
         {
             if (SelectedStep == null) return;
@@ -163,6 +222,7 @@ namespace RMIDispenseSequenceEditor.ViewModels
         {
             OnPropertyChanged(nameof(CanMoveUp));
             OnPropertyChanged(nameof(CanMoveDown));
+            OnPropertyChanged(nameof(CanPreview));
         }
 
         private void AddStep(string item)

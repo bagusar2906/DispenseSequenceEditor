@@ -8,7 +8,6 @@ namespace RMIDispenseSequenceEditor.Views
         public IngredientsTableControl()
         {
             InitializeComponent();
-            DataContext = new IngredientsTableViewModel();
         }
     }
 }
