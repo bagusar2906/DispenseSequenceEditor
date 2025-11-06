@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:views="clr-namespace:RMIDispenseSequenceEditor.Views"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="600">
 
@@ -15,55 +14,47 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-
-    <!-- =================== TABLE =================== -->
+    <!-- ⚠️ Removed all BeginStoryboard / EventTrigger sections -->
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/> <!-- Header -->
-            <RowDefinition Height="Auto"/> <!-- Ingredient table -->
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!-- ===== Headers ===== -->
         <Border Grid.Row="0" Grid.Column="0" BorderBrush="#CCC" BorderThickness="0,0,1,1">
-            <TextBlock Text="Column 1"
-                       FontWeight="Bold" FontSize="14"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                       Padding="0,4"/>
+            <TextBlock Text="Column 1" FontWeight="Bold" FontSize="14"
+                       HorizontalAlignment="Center" Padding="0,4"/>
         </Border>
         <Border Grid.Row="0" Grid.Column="1" BorderBrush="#CCC" BorderThickness="0,0,1,1">
-            <TextBlock Text="Column 2"
-                       FontWeight="Bold" FontSize="14"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                       Padding="0,4"/>
+            <TextBlock Text="Column 2" FontWeight="Bold" FontSize="14"
+                       HorizontalAlignment="Center" Padding="0,4"/>
         </Border>
         <Border Grid.Row="0" Grid.Column="2" BorderBrush="#CCC" BorderThickness="0,0,0,1">
-            <TextBlock Text="Column 3"
-                       FontWeight="Bold" FontSize="14"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                       Padding="0,4"/>
+            <TextBlock Text="Column 3" FontWeight="Bold" FontSize="14"
+                       HorizontalAlignment="Center" Padding="0,4"/>
         </Border>
 
         <!-- ===== Ingredient Area ===== -->
-        <Grid Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="0"
-              VerticalAlignment="Top"> <!-- keeps border height exactly to content -->
+        <Grid Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <!-- Column 1 -->
-            <Border Grid.Column="0" BorderBrush="#CCC" BorderThickness="0,0,1,0" VerticalAlignment="Top">
-                <ItemsControl ItemsSource="{Binding Column1Ingredients}">
+            <Border Grid.Column="0" BorderBrush="#CCC" BorderThickness="0,0,1,0">
+                <ItemsControl x:Name="Column1List" ItemsSource="{Binding Column1Ingredients}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical" Margin="0"/>
+                            <StackPanel Orientation="Vertical"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
@@ -71,11 +62,17 @@
                             <Border Style="{StaticResource IngredientBorderStyle}"
                                     Margin="0" Padding="6,2"
                                     SnapsToDevicePixels="True">
-                                <TextBlock Text="{Binding}"
+                                <TextBlock Text="{Binding}"  Opacity="0"
                                            Style="{StaticResource IngredientTextStyle}"
                                            FontWeight="SemiBold"
                                            HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"/>
+                                           VerticalAlignment="Center">
+                                  
+                                    <TextBlock.RenderTransform>
+                                        <TranslateTransform Y="-15"/>
+                                    </TextBlock.RenderTransform>
+                                    
+                                    </TextBlock>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -83,11 +80,11 @@
             </Border>
 
             <!-- Column 2 -->
-            <Border Grid.Column="1" BorderBrush="#CCC" BorderThickness="0,0,1,0" VerticalAlignment="Top">
-                <ItemsControl ItemsSource="{Binding Column2Ingredients}">
+            <Border Grid.Column="1" BorderBrush="#CCC" BorderThickness="0,0,1,0">
+                <ItemsControl x:Name="Column2List" ItemsSource="{Binding Column2Ingredients}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical" Margin="0"/>
+                            <StackPanel Orientation="Vertical"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
@@ -95,11 +92,15 @@
                             <Border Style="{StaticResource IngredientBorderStyle}"
                                     Margin="0" Padding="6,2"
                                     SnapsToDevicePixels="True">
-                                <TextBlock Text="{Binding}"
+                                <TextBlock Text="{Binding}"  Opacity="0"
                                            Style="{StaticResource IngredientTextStyle}"
                                            FontWeight="SemiBold"
                                            HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"/>
+                                           VerticalAlignment="Center">
+                                    <TextBlock.RenderTransform>
+                                        <TranslateTransform Y="-15"/>
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -107,11 +108,11 @@
             </Border>
 
             <!-- Column 3 -->
-            <Border Grid.Column="2" BorderBrush="#CCC" BorderThickness="0,0,0,0" VerticalAlignment="Top">
-                <ItemsControl ItemsSource="{Binding Column3Ingredients}">
+            <Border Grid.Column="2" BorderBrush="#CCC" BorderThickness="0,0,0,0">
+                <ItemsControl x:Name="Column3List" ItemsSource="{Binding Column3Ingredients}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical" Margin="0"/>
+                            <StackPanel Orientation="Vertical"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
@@ -119,11 +120,15 @@
                             <Border Style="{StaticResource IngredientBorderStyle}"
                                     Margin="0" Padding="6,2"
                                     SnapsToDevicePixels="True">
-                                <TextBlock Text="{Binding}"
+                                <TextBlock Text="{Binding}"  Opacity="0"
                                            Style="{StaticResource IngredientTextStyle}"
                                            FontWeight="SemiBold"
                                            HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"/>
+                                           VerticalAlignment="Center">
+                                    <TextBlock.RenderTransform>
+                                        <TranslateTransform Y="-15"/>
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

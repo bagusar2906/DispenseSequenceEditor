@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading;
 using System.Windows.Input;
 using RMIDispenseSequenceEditor.Models;
@@ -9,6 +11,8 @@ namespace RMIDispenseSequenceEditor.ViewModels
 {
   public class DispenseProtocolEditorViewModel : INotifyPropertyChanged
     {
+        public event EventHandler PreviewResultCompleted;
+
         public IngredientsTableViewModel IngredientsTable { get; }
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -24,7 +28,7 @@ namespace RMIDispenseSequenceEditor.ViewModels
         public ICommand SelectUpCommand { get; set; }
         public ICommand SelectDownCommand { get; set; }
 
-        private IDictionary<int, ObservableCollection<string>> _ingredientsColumns =
+        private readonly IDictionary<int, ObservableCollection<string>> _ingredientsColumns =
             new Dictionary<int, ObservableCollection<string>>();
 
         public DispenseProtocolEditorViewModel()
@@ -65,7 +69,7 @@ namespace RMIDispenseSequenceEditor.ViewModels
             {
 
 
-                foreach (var step in Steps)
+                foreach (var step in Steps.Reverse())
                 {
 
                     if (step.IsDispensedAcrossColumnsFirst && j == 1)
@@ -81,6 +85,8 @@ namespace RMIDispenseSequenceEditor.ViewModels
                             }
 
                         }
+                        PreviewResultCompleted?.Invoke(this, EventArgs.Empty);
+                        //Thread.Sleep(5000);
                         continue;
                     }
                     
@@ -92,7 +98,8 @@ namespace RMIDispenseSequenceEditor.ViewModels
 
                 }
             }
-            // Example content for each column
+            
+            PreviewResultCompleted?.Invoke(this, EventArgs.Empty);
             
         }
 

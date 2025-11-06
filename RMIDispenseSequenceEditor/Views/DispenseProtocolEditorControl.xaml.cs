@@ -20,6 +20,18 @@ namespace RMIDispenseSequenceEditor.Views
         public DispenseProtocolEditorControl()
         {
             InitializeComponent();
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is DispenseProtocolEditorViewModel vm)
+            {
+                vm.PreviewResultCompleted += async (_, __) =>
+                {
+                    await IngredientsTable.PlayFallingAnimationAsync(500);
+                };
+            }
         }
 
 
