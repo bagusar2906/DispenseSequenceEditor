@@ -55,9 +55,26 @@
                 <ItemsControl x:Name="Column1List" ItemsSource="{Binding Column1Ingredients}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical"/>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel.LayoutTransform>
+                                    <ScaleTransform ScaleY="-1"/>
+                                </StackPanel.LayoutTransform>
+                            </StackPanel>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
+                    
+                    <!-- flip each item back upright -->
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="LayoutTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleY="-1"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+
+                    
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border Style="{StaticResource IngredientBorderStyle}"
@@ -89,9 +106,26 @@
                 <ItemsControl x:Name="Column2List" ItemsSource="{Binding Column2Ingredients}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical"/>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel.LayoutTransform>
+                                    <ScaleTransform ScaleY="-1"/>
+                                </StackPanel.LayoutTransform>
+                            </StackPanel>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
+                    
+                    <!-- flip each item back upright -->
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="LayoutTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleY="-1"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+
+                    
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border Style="{StaticResource IngredientBorderStyle}"
@@ -118,9 +152,25 @@
                 <ItemsControl x:Name="Column3List" ItemsSource="{Binding Column3Ingredients}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical"/>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel.LayoutTransform>
+                                    <ScaleTransform ScaleY="-1"/>
+                                </StackPanel.LayoutTransform>
+                            </StackPanel>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
+                    
+                    <!-- flip each item back upright -->
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="LayoutTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleY="-1"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border Style="{StaticResource IngredientBorderStyle}"

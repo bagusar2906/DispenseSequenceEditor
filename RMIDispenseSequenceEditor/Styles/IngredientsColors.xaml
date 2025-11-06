@@ -8,7 +8,7 @@
     <SolidColorBrush x:Key="WellBrush" Color="#90CAF9"/>
     <SolidColorBrush x:Key="SeedBrush" Color="#A5D6A7"/>
     <SolidColorBrush x:Key="FragmentBrush" Color="#FFFACD"/>
-    <SolidColorBrush x:Key="AdditiveBrush" Color="LightPink"/>
+    <SolidColorBrush x:Key="AdditiveBrush" Color="LightCyan"/>
     <!-- Light green -->
     <SolidColorBrush x:Key="HoverOverlay" Color="#22000000"/>
     <!-- Transparent gray overlay -->
@@ -28,8 +28,8 @@
             <DataTrigger Binding="{Binding}" Value="Well">
                 <Setter Property="Background" Value="#90CAF9"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding}" Value="Buffer">
-                <Setter Property="Background" Value="#FFF59D"/>
+            <DataTrigger Binding="{Binding}" Value="Additive">
+                <Setter Property="Background" Value="LightCyan"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding}" Value="Protein">
                 <Setter Property="Background" Value="#F48FB1"/>
