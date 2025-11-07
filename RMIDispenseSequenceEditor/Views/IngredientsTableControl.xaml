@@ -74,30 +74,29 @@
                         </Style>
                     </ItemsControl.ItemContainerStyle>
 
-                    
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Style="{StaticResource IngredientBorderStyle}"
-                                    Margin="0" Padding="6,2"
-                                    helpers:IngredientHelper.IsAnimated="True"
-                                    SnapsToDevicePixels="True">
-                                <Border.RenderTransform>
+                            <!-- Outer container with single transform -->
+                            <Grid RenderTransformOrigin="0.5,0.5">
+                                <Grid.RenderTransform>
                                     <TranslateTransform Y="0"/>
-                                </Border.RenderTransform>
-                                <TextBlock Text="{Binding}"  Opacity="0"
-                                           Style="{StaticResource IngredientTextStyle}"
-                                           FontWeight="SemiBold"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center">
-                                  
-                                    <TextBlock.RenderTransform>
-                                        <TranslateTransform Y="0"/>
-                                    </TextBlock.RenderTransform>
-                                    
-                                    </TextBlock>
-                            </Border>
+                                </Grid.RenderTransform>
+
+                                <Border Style="{StaticResource IngredientBorderStyle}"
+                                        helpers:IngredientHelper.IsAnimated="True"
+                                        Margin="0" Padding="6,2"
+                                        SnapsToDevicePixels="True">
+                                    <TextBlock Text="{Binding}"
+                                               Style="{StaticResource IngredientTextStyle}"
+                                               FontWeight="SemiBold"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               TextAlignment="Center"/>
+                                </Border>
+                            </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
+
                 </ItemsControl>
             </Border>
 
@@ -128,22 +127,27 @@
                     
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Style="{StaticResource IngredientBorderStyle}"
-                                    Margin="0" Padding="6,2"
-                                    helpers:IngredientHelper.IsAnimated="True"
-                                    SnapsToDevicePixels="True">
-                                <TextBlock Text="{Binding}"  Opacity="0"
-                                           Style="{StaticResource IngredientTextStyle}"
-                                           FontWeight="SemiBold"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center">
-                                    <TextBlock.RenderTransform>
-                                        <TranslateTransform Y="-15"/>
-                                    </TextBlock.RenderTransform>
-                                </TextBlock>
-                            </Border>
+                            <!-- Outer container with single transform -->
+                            <Grid RenderTransformOrigin="0.5,0.5">
+                                <Grid.RenderTransform>
+                                    <TranslateTransform Y="0"/>
+                                </Grid.RenderTransform>
+
+                                <Border Style="{StaticResource IngredientBorderStyle}"
+                                        helpers:IngredientHelper.IsAnimated="True"
+                                        Margin="0" Padding="6,2"
+                                        SnapsToDevicePixels="True">
+                                    <TextBlock Text="{Binding}"
+                                               Style="{StaticResource IngredientTextStyle}"
+                                               FontWeight="SemiBold"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               TextAlignment="Center"/>
+                                </Border>
+                            </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
+
                 </ItemsControl>
             </Border>
 
@@ -173,22 +177,27 @@
                     
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border Style="{StaticResource IngredientBorderStyle}"
-                                    Margin="0" Padding="6,2"
-                                    helpers:IngredientHelper.IsAnimated="True"
-                                    SnapsToDevicePixels="True">
-                                <TextBlock Text="{Binding}"  Opacity="0"
-                                           Style="{StaticResource IngredientTextStyle}"
-                                           FontWeight="SemiBold"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center">
-                                    <TextBlock.RenderTransform>
-                                        <TranslateTransform Y="-15"/>
-                                    </TextBlock.RenderTransform>
-                                </TextBlock>
-                            </Border>
+                            <!-- Outer container with single transform -->
+                            <Grid RenderTransformOrigin="0.5,0.5">
+                                <Grid.RenderTransform>
+                                    <TranslateTransform Y="0"/>
+                                </Grid.RenderTransform>
+
+                                <Border Style="{StaticResource IngredientBorderStyle}"
+                                        helpers:IngredientHelper.IsAnimated="True"
+                                        Margin="0" Padding="6,2"
+                                        SnapsToDevicePixels="True">
+                                    <TextBlock Text="{Binding}"
+                                               Style="{StaticResource IngredientTextStyle}"
+                                               FontWeight="SemiBold"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               TextAlignment="Center"/>
+                                </Border>
+                            </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
+
                 </ItemsControl>
             </Border>
         </Grid>
