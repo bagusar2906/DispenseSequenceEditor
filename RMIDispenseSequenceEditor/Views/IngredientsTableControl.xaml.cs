@@ -19,17 +19,12 @@ namespace RMIDispenseSequenceEditor.Views
 
         public async Task PlayBottomUpByColumnAsync(int staggerMs)
         {
-            if (!(DataContext is IngredientsTableViewModel))
-                return;
-
-            IngredientsTableViewModel vm = (IngredientsTableViewModel)DataContext;
-
+         
             // Let WPF finish building visuals before animating
-            await Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.Background);
+            await Dispatcher.Yield(DispatcherPriority.Background);
 
             await AnimateColumnByAddOrder(staggerMs);
-            // await AnimateColumnByAddOrder(Column2List, vm.Column2Ingredients, staggerMs);
-            //  await AnimateColumnByAddOrder(Column3List, vm.Column3Ingredients, staggerMs);
+            
         }
 
         // ----------------- ANIMATION CORE -----------------
@@ -51,15 +46,11 @@ namespace RMIDispenseSequenceEditor.Views
 
                 foreach (var item in list.Items)
                 {
-                    if (list.ItemContainerGenerator.ContainerFromItem(item) is FrameworkElement container)
-                    {
-                        var grid = FindVisualChild<Grid>(container);
-                        if (grid != null)
-                        {
-                            grid.Opacity = 0;
-                            grid.RenderTransform = new TranslateTransform { Y = -50 }; // Start above
-                        }
-                    }
+                    if (!(list.ItemContainerGenerator.ContainerFromItem(item) is FrameworkElement container)) continue;
+                    var grid = FindVisualChild<Grid>(container);
+                    if (grid == null) continue;
+                    grid.Opacity = 0;
+                    grid.RenderTransform = new TranslateTransform { Y = -50 }; // Start above
                 }
             }
 
@@ -98,68 +89,66 @@ namespace RMIDispenseSequenceEditor.Views
                 list.UpdateLayout();
 
                 // Find container for this ingredient
-                if (list.ItemContainerGenerator.ContainerFromItem(name) is FrameworkElement container)
-                {
-                    var grid = FindVisualChild<Grid>(container);
-                    if (grid == null) continue;
+                if (!(list.ItemContainerGenerator.ContainerFromItem(name) is FrameworkElement container)) continue;
+                var grid = FindVisualChild<Grid>(container);
+                if (grid == null) continue;
 
-                    // Select color based on ingredient name
-                    var targetColor = Colors.LightGray;
-                    if (name.Equals("Protein", StringComparison.OrdinalIgnoreCase))
-                        targetColor = ((SolidColorBrush)dict["ProteinBrush"]).Color;
-                    else if (name.Equals("Seed", StringComparison.OrdinalIgnoreCase))
-                        targetColor = ((SolidColorBrush)dict["SeedBrush"]).Color;
-                    else if (name.Equals("Additive", StringComparison.OrdinalIgnoreCase))
-                        targetColor = ((SolidColorBrush)dict["AdditiveBrush"]).Color;
-                    else if (name.Equals("Well", StringComparison.OrdinalIgnoreCase))
-                        targetColor = ((SolidColorBrush)dict["WellBrush"]).Color;
-                    else if (name.Equals("Fragment", StringComparison.OrdinalIgnoreCase))
-                        targetColor = ((SolidColorBrush)dict["FragmentBrush"]).Color;
+                // Select color based on ingredient name
+                var targetColor = Colors.LightGray;
+                if (name.Equals("Protein", StringComparison.OrdinalIgnoreCase))
+                    targetColor = ((SolidColorBrush)dict["ProteinBrush"]).Color;
+                else if (name.Equals("Seed", StringComparison.OrdinalIgnoreCase))
+                    targetColor = ((SolidColorBrush)dict["SeedBrush"]).Color;
+                else if (name.Equals("Additive", StringComparison.OrdinalIgnoreCase))
+                    targetColor = ((SolidColorBrush)dict["AdditiveBrush"]).Color;
+                else if (name.Equals("Well", StringComparison.OrdinalIgnoreCase))
+                    targetColor = ((SolidColorBrush)dict["WellBrush"]).Color;
+                else if (name.Equals("Fragment", StringComparison.OrdinalIgnoreCase))
+                    targetColor = ((SolidColorBrush)dict["FragmentBrush"]).Color;
 
-                    // Create unfrozen brushes for animation
-                    var backBrush = new SolidColorBrush(Colors.Transparent);
-                    var borderBrush = new SolidColorBrush(Colors.Transparent);
-                    grid.Background = backBrush;
-                    grid.SetValue(Border.BorderBrushProperty, borderBrush);
+                // Create unfrozen brushes for animation
+                var backBrush = new SolidColorBrush(Colors.Transparent);
+                var borderBrush = new SolidColorBrush(Colors.Transparent);
+                grid.Background = backBrush;
+                grid.SetValue(Border.BorderBrushProperty, borderBrush);
 
                     
-                    double startY = -150;
-                    var tt = new TranslateTransform { Y = startY };
-                    grid.RenderTransform = tt;
-                    grid.Opacity = 0;
+                const double startY = -150;
+                var tt = new TranslateTransform { Y = startY };
+                grid.RenderTransform = tt;
+                grid.Opacity = 0;
 
-                    // --- Animations ---
-                    var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(300))
+                // --- Animations ---
+                var fadeIn = new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(300))
+                {
+                    EasingFunction = ease
+                };
+
+                var fall = new DoubleAnimation(startY, 0, TimeSpan.FromMilliseconds(500))
+                {
+                    EasingFunction = new BounceEase
                     {
-                        EasingFunction = ease
-                    };
+                        Bounces = 0,
+                        Bounciness = 3,
+                        EasingMode = EasingMode.EaseOut
+                    }
+                };
 
-                    var fall = new DoubleAnimation(startY, 0, TimeSpan.FromMilliseconds(500))
-                    {
-                        EasingFunction = new BounceEase
-                        {
-                            Bounces = 0,
-                            Bounciness = 3,
-                            EasingMode = EasingMode.EaseOut
-                        }
-                    };
+                var colorAnim = new ColorAnimation
+                {
+                    From = Colors.Transparent,
+                    To = targetColor,
+                    Duration = new Duration(TimeSpan.FromMilliseconds(400))
+                };
 
-                    var colorAnim = new ColorAnimation
-                    {
-                        From = Colors.Transparent,
-                        To = targetColor,
-                        Duration = new Duration(TimeSpan.FromMilliseconds(400))
-                    };
+                // --- Apply ---
+                grid.BeginAnimation(UIElement.OpacityProperty, fadeIn);
+                tt.BeginAnimation(TranslateTransform.YProperty, fall);
+                backBrush.BeginAnimation(SolidColorBrush.ColorProperty, colorAnim);
+                borderBrush.BeginAnimation(SolidColorBrush.ColorProperty, colorAnim);
 
-                    // --- Apply ---
-                    grid.BeginAnimation(UIElement.OpacityProperty, fadeIn);
-                    tt.BeginAnimation(TranslateTransform.YProperty, fall);
-                    backBrush.BeginAnimation(SolidColorBrush.ColorProperty, colorAnim);
-                    borderBrush.BeginAnimation(SolidColorBrush.ColorProperty, colorAnim);
-
-                    // Wait before next item starts
-                    await Task.Delay(staggerMs);
-                }
+                // Wait before next item starts
+                await Task.Delay(staggerMs);
             }
         }
 
