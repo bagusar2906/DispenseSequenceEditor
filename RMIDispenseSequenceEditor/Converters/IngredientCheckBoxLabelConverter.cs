@@ -16,11 +16,11 @@ namespace RMIDispenseSequenceEditor.Converters
                 foreach (var o in items)
                 {
                     if (o?.ToString().Equals("Seed", StringComparison.OrdinalIgnoreCase) == true)
-                        return "Allocating";
+                        return "Aliquoting";
                 }
             }
 
-            return "Across Column First";
+            return "Batch";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

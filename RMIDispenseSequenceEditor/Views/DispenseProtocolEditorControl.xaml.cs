@@ -60,13 +60,13 @@ namespace RMIDispenseSequenceEditor.Views
         private void StepList_Drop(object sender, DragEventArgs e)
         {
             var listBox = sender as ListBox;
-            var items = listBox?.ItemsSource as ObservableCollection<Step>;
+            var items = listBox?.ItemsSource as ObservableCollection<Sequence>;
             if (items == null) return;
 
-            var droppedData = e.Data.GetData(typeof(Step)) as Step;
+            var droppedData = e.Data.GetData(typeof(Sequence)) as Sequence;
             if (droppedData == null) return;
 
-            var target = GetDataFromPoint(listBox, e.GetPosition(listBox)) as Step;
+            var target = GetDataFromPoint(listBox, e.GetPosition(listBox)) as Sequence;
             if (target == null || droppedData == target) return;
 
             int removeIndex = items.IndexOf(droppedData);
@@ -176,7 +176,7 @@ namespace RMIDispenseSequenceEditor.Views
             };
             if (dialog.ShowDialog() == true)
             {
-                var json = JsonConvert.SerializeObject(vm.Steps, Formatting.Indented);
+                var json = JsonConvert.SerializeObject(vm.Sequences, Formatting.Indented);
                 File.WriteAllText(dialog.FileName, json);
                 MessageBox.Show("Sequence saved successfully!", "Saved", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -195,12 +195,12 @@ namespace RMIDispenseSequenceEditor.Views
             if (dialog.ShowDialog() == true)
             {
                 var json = File.ReadAllText(dialog.FileName);
-                var loaded = JsonConvert.DeserializeObject<ObservableCollection<Step>>(json);
+                var loaded = JsonConvert.DeserializeObject<ObservableCollection<Sequence>>(json);
                 if (loaded != null)
                 {
-                    vm.Steps.Clear();
+                    vm.Sequences.Clear();
                     foreach (var s in loaded)
-                        vm.Steps.Add(s);
+                        vm.Sequences.Add(s);
                 }
             }
         }

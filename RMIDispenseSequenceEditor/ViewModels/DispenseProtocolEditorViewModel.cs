@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Threading;
 using System.Windows.Input;
 using RMIDispenseSequenceEditor.Models;
 
@@ -43,11 +40,12 @@ namespace RMIDispenseSequenceEditor.ViewModels
             PreviewCommand = new RelayCommand(PreviewCommandHandler);
             
             SelectedIngredient = Ingredients[0];
-            IngredientsTable = new IngredientsTableViewModel();
-            IngredientsTable.Column1Ingredients = new ObservableCollection<string>();
-            IngredientsTable.Column2Ingredients = new ObservableCollection<string>();
-            IngredientsTable.Column3Ingredients = new ObservableCollection<string>();
-
+            IngredientsTable = new IngredientsTableViewModel
+            {
+                Column1Ingredients = new ObservableCollection<string>(),
+                Column2Ingredients = new ObservableCollection<string>(),
+                Column3Ingredients = new ObservableCollection<string>()
+            };
         }
 
         private void PreviewCommandHandler(object obj)
@@ -55,34 +53,34 @@ namespace RMIDispenseSequenceEditor.ViewModels
             IngredientsTable.ClearAll();
             
 
-            for (int j = 1; j <= 3; j++)
+            for (var j = 1; j <= 3; j++)
             {
 
 
-                foreach (var step in Steps)
+                foreach (var sequence in Sequences)
                 {
 
-                    if (step.IsDispensedAcrossColumnsFirst && j == 1)
+                    if (sequence.IsDispensedAcrossColumnsFirst && j == 1)
                     {
                         // dispense to all columns
-                        for (int i = 1; i <= 3; i++)
+                        for (var i = 1; i <= 3; i++)
                         {
 
                             // dispense all together
-                            foreach (var ingredient in step.ParallelIngredients)
+                            foreach (var ingredient in sequence.ParallelIngredients)
                             {
                                 IngredientsTable.AddIngredient(i, ingredient);
                             }
 
                         }
-                      //  PreviewResultCompleted?.Invoke(this, EventArgs.Empty);
+                        //  PreviewResultCompleted?.Invoke(this, EventArgs.Empty);
                         //Thread.Sleep(5000);
                         continue;
                     }
                     
-                    foreach (var ingredient in step.ParallelIngredients)
+                    foreach (var ingredient in sequence.ParallelIngredients)
                     {
-                        if (!step.IsDispensedAcrossColumnsFirst)
+                        if (!sequence.IsDispensedAcrossColumnsFirst)
                             IngredientsTable.AddIngredient(j, ingredient);
                     }
 
@@ -93,44 +91,44 @@ namespace RMIDispenseSequenceEditor.ViewModels
             
         }
 
-        public bool CanSelectUp => SelectedStep != null && Steps.IndexOf(SelectedStep) > 0;
-        public bool CanSelectDown => SelectedStep != null && Steps.IndexOf(SelectedStep) < Steps.Count - 1;
+        public bool CanSelectUp => SelectedSequence != null && Sequences.IndexOf(SelectedSequence) > 0;
+        public bool CanSelectDown => SelectedSequence != null && Sequences.IndexOf(SelectedSequence) < Sequences.Count - 1;
 
-        public bool CanPreview => Steps.Count > 0;
+        public bool CanPreview => Sequences.Count > 0;
         private void SelectUpCommandHandler(object obj)
         {
-            if (SelectedStep == null) return;
-            int index = Steps.IndexOf(SelectedStep);
+            if (SelectedSequence == null) return;
+            var index = Sequences.IndexOf(SelectedSequence);
             if (index > 0)
-                SelectedStep = Steps[index - 1];
+                SelectedSequence = Sequences[index - 1];
         }
 
         private void SelectDownCommandHandler(object obj)
         {
-            if (SelectedStep == null) return;
-            int index = Steps.IndexOf(SelectedStep);
-            if (index < Steps.Count - 1)
-                SelectedStep = Steps[index + 1];
+            if (SelectedSequence == null) return;
+            var index = Sequences.IndexOf(SelectedSequence);
+            if (index < Sequences.Count - 1)
+                SelectedSequence = Sequences[index + 1];
         }
 
         private void RemoveStepCommandHandler(object obj)
         {
-            if (SelectedStep == null) return;
-            foreach (var step in SelectedStep)
+            if (SelectedSequence == null) return;
+            foreach (var step in SelectedSequence)
             {
                 Ingredients.Add(step.ToString());
             }
 
             SelectedIngredient = Ingredients[0];
-            RemoveStep(SelectedStep);
+            RemoveStep(SelectedSequence);
         }
 
         private void AddParallelStepCommandHandler(object obj)
         {
-            if (SelectedStep == null)
+            if (SelectedSequence == null)
                 return;
             
-            var step = SelectedStep;
+            var step = SelectedSequence;
 
             if (!string.IsNullOrEmpty(_selectedIngredient))
             {
@@ -154,31 +152,31 @@ namespace RMIDispenseSequenceEditor.ViewModels
         
         private void MoveUpCommandHandler(object obj)
         {
-            if (SelectedStep == null) return;
-            var index = Steps.IndexOf(SelectedStep);
+            if (SelectedSequence == null) return;
+            var index = Sequences.IndexOf(SelectedSequence);
             if (index > 0)
             {
-                Steps.Move(index, index - 1);
-                SelectedStep = Steps[index - 1];
+                Sequences.Move(index, index - 1);
+                SelectedSequence = Sequences[index - 1];
             }
             RaiseNavStateChanged();
         }
 
         private void MoveDownCommandHandler(object obj)
         {
-            if (SelectedStep == null) return;
-            var index = Steps.IndexOf(SelectedStep);
-            if (index >= 0 && index < Steps.Count - 1)
+            if (SelectedSequence == null) return;
+            var index = Sequences.IndexOf(SelectedSequence);
+            if (index >= 0 && index < Sequences.Count - 1)
             {
-                Steps.Move(index, index + 1);
-                SelectedStep = Steps[index + 1];
+                Sequences.Move(index, index + 1);
+                SelectedSequence = Sequences[index + 1];
             }
             RaiseNavStateChanged();
         }
 
        
 
-        public ObservableCollection<Step> Steps { get; set; } = new ObservableCollection<Step>();
+        public ObservableCollection<Sequence> Sequences { get; set; } = new ObservableCollection<Sequence>();
         public ObservableCollection<string> Ingredients { get; set; } = new ObservableCollection<string>
         {
             "Protein", "Seed", "Well", "Fragment", "Additive"
@@ -198,22 +196,22 @@ namespace RMIDispenseSequenceEditor.ViewModels
             }
         }
         
-        private Step _selectedStep;
-        public Step SelectedStep
+        private Sequence _selectedSequence;
+        public Sequence SelectedSequence
         {
-            get => _selectedStep;
+            get => _selectedSequence;
             set
             {
-                _selectedStep = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedStep)));
+                _selectedSequence = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedSequence)));
                 RaiseNavStateChanged();
             }
         }
         
         // ===== MOVE STATE LOGIC =====
 
-        public bool CanMoveUp => SelectedStep != null && Steps.IndexOf(SelectedStep) > 0;
-        public bool CanMoveDown => SelectedStep != null && Steps.IndexOf(SelectedStep) < Steps.Count - 1;
+        public bool CanMoveUp => SelectedSequence != null && Sequences.IndexOf(SelectedSequence) > 0;
+        public bool CanMoveDown => SelectedSequence != null && Sequences.IndexOf(SelectedSequence) < Sequences.Count - 1;
 
         private void RaiseNavStateChanged()
         {
@@ -226,16 +224,16 @@ namespace RMIDispenseSequenceEditor.ViewModels
         {
             if (string.IsNullOrEmpty(item)) return;
             
-            var step = new Step();
+            var step = new Sequence();
             step.AddParallel(item);
-            Steps.Add(step);
-            SelectedStep = step;
+            Sequences.Add(step);
+            SelectedSequence = step;
         }
 
-        public void RemoveStep(Step step)
+        public void RemoveStep(Sequence sequence)
         {
-            if (step != null)
-                Steps.Remove(step);
+            if (sequence != null)
+                Sequences.Remove(sequence);
         }
 
         private void OnPropertyChanged(string propName)

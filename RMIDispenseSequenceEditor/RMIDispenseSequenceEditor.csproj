@@ -92,7 +92,7 @@
     <Compile Include="Converters\IngredientToForegroundConverter.cs" />
     <Compile Include="Converters\NullToBoolConverter.cs" />
     <Compile Include="Helpers\IngredientHelper.cs" />
-    <Compile Include="Models\Step.cs" />
+    <Compile Include="Models\Sequence.cs" />
     <Compile Include="SimulateDispense.cs" />
     <Compile Include="ViewModels\DispenseProtocolEditorViewModel.cs" />
     <Compile Include="ViewModels\IngredientsTableViewModel.cs" />

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace RMIDispenseSequenceEditor.Models
 {
-    public class Step : INotifyPropertyChanged, IEnumerable
+    public class Sequence : INotifyPropertyChanged, IEnumerable
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

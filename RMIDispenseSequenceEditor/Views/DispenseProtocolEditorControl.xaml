@@ -163,8 +163,8 @@
             <!-- Main Step List -->
             <ListBox Grid.Column="0" x:Name="StepList"
                     
-                     ItemsSource="{Binding Steps}"
-                     SelectedItem="{Binding SelectedStep}"
+                     ItemsSource="{Binding Sequences}"
+                     SelectedItem="{Binding SelectedSequence}"
                      AllowDrop="True"
                      PreviewMouseLeftButtonDown="StepList_PreviewMouseLeftButtonDown"
                      MouseMove="StepList_MouseMove"
@@ -175,7 +175,7 @@
                      Margin="2">
 
                 <ListBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type models:Step}">
+                    <DataTemplate DataType="{x:Type models:Sequence}">
                         <Border Style="{StaticResource IngredientBorderStyle}">
 
                             <DockPanel Margin="20,5,0,5" LastChildFill="False">
@@ -208,7 +208,6 @@
                                     FontSize="12"
                                     Foreground="#555"
                                     IsChecked="{Binding IsDispensedAcrossColumnsFirst, Mode=TwoWay}"
-                                    Visibility="{Binding ParallelIngredients[0], Converter={StaticResource CheckBoxVisibilityConverter}}"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Right"
                                     Margin="20,0,20,0" />
