@@ -53,7 +53,8 @@
                         SelectedItem="{Binding SelectedIngredient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                        BorderThickness="0"
+                        Height="40"
+                        BorderThickness="2"
                         Background="Transparent">
                         <!-- Horizontal layout -->
                         <ListBox.ItemsPanel>
