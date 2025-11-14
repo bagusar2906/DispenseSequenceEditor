@@ -208,7 +208,7 @@
                                     Content="{Binding ParallelIngredients, Converter={StaticResource CheckBoxLabelConverter}}"
                                     FontSize="12"
                                     Foreground="#555"
-                                    IsChecked="{Binding IsDispensedAcrossColumnsFirst, Mode=TwoWay}"
+                                    IsChecked="{Binding Batch, Mode=TwoWay}"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Right"
                                     Margin="20,0,20,0" />

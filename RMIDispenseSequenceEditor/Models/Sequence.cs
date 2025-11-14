@@ -10,7 +10,7 @@ namespace RMIDispenseSequenceEditor.Models
         public event PropertyChangedEventHandler PropertyChanged;
 
         private ObservableCollection<string> _parallelIngredients = new ObservableCollection<string>();
-        private bool _isDispensedAcrossColumnsFirst;
+        private bool _batch;
 
         public ObservableCollection<string> ParallelIngredients
         {
@@ -22,16 +22,17 @@ namespace RMIDispenseSequenceEditor.Models
             }
         }
 
-        public bool IsDispensedAcrossColumnsFirst
+        public bool IsAlternate { get; set; }
+        public bool Batch
         {
-            get => _isDispensedAcrossColumnsFirst;
+            get => _batch;
             set
             {
-                _isDispensedAcrossColumnsFirst = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsDispensedAcrossColumnsFirst)));
+                _batch = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Batch)));
             }
         }
-
+        
         public void AddParallel(string ingredient)
         {
             if (!ParallelIngredients.Contains(ingredient))

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -53,37 +54,83 @@ namespace RMIDispenseSequenceEditor.ViewModels
     {
       IngredientsTable.ClearAll();
 
+      FixInconsistentDispense();
 
-      for(var j = 1; j <= 3; j++)
+
+      UpdatePreviewTable();
+
+      
+
+    }
+
+    private void UpdatePreviewTable()
+    {
+      var altSequences = new List<Sequence>();
+      for (var column = 1; column <= 3; column++)
       {
-
-
-        foreach(var sequence in Sequences)
+        foreach (var sequence in Sequences)
         {
-
-          if(sequence.IsDispensedAcrossColumnsFirst && j == 1)
+          if (sequence.Batch && column == 1)
           {
+            DispenseToAllColumns(altSequences);
+            altSequences.Clear();
             // dispense to all columns
-            for(var i = 1; i <= 3; i++)
-            {
-
-              // dispense all together
-
-              IngredientsTable.AddIngredient( i, sequence.ParallelIngredients.ToArray() );
-            }
-            //  PreviewResultCompleted?.Invoke(this, EventArgs.Empty);
-            //Thread.Sleep(5000);
+            DispenseToAllColumns(sequence);
             continue;
           }
 
-
-          if(!sequence.IsDispensedAcrossColumnsFirst)
-            IngredientsTable.AddIngredient( j, sequence.ParallelIngredients.ToArray() );
+          if (!sequence.Batch && !sequence.IsAlternate)
+          {
+            IngredientsTable.AddIngredient(column, sequence.ParallelIngredients.ToArray());
+          }
+          else
+          {
+            altSequences.Add(sequence);
+          }
         }
       }
-
+      
       PreviewResultCompleted?.Invoke( this, EventArgs.Empty );
+    }
 
+    private void FixInconsistentDispense()
+    {
+      var queue = new Queue<Sequence>();
+      foreach (var sequence in Sequences)
+      {
+        if (!sequence.Batch)
+        {
+          queue.Enqueue(sequence);
+        }
+        else
+        {
+          while (queue.Count > 0)
+          {
+            var altSequence = queue.Dequeue();
+            altSequence.IsAlternate = true;
+          }
+        }
+      }
+    }
+
+    private void DispenseToAllColumns(Sequence sequence)
+    {
+      for (var column = 1; column <= 3; column++)
+      {
+        // dispense all together
+
+        IngredientsTable.AddIngredient(column, sequence.ParallelIngredients.ToArray());
+      }
+    }
+    
+    private void DispenseToAllColumns(List<Sequence> sequences)
+    {
+        for (var column = 1; column <= 3; column++)
+        {
+          // dispense all together
+          foreach (var sequence in sequences)
+            IngredientsTable.AddIngredient(column, sequence.ParallelIngredients.ToArray());
+        }
     }
 
     public bool CanSelectUp => SelectedSequence != null && Sequences.IndexOf( SelectedSequence ) > 0;
