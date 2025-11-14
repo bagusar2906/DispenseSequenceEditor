@@ -89,26 +89,25 @@ namespace RMIDispenseSequenceEditor.Views
 
         list.UpdateLayout();
        
-        foreach(var name in dispenseSeq.IngredientsName)
+        foreach(var ingredient in dispenseSeq.Ingredients)
         {
-
-
+          
           // Find container for this ingredient
-          if(!(list.ItemContainerGenerator.ContainerFromItem( name ) is FrameworkElement container)) continue;
+          if(!(list.ItemContainerGenerator.ContainerFromItem( ingredient ) is FrameworkElement container)) continue;
           var grid = FindVisualChild<Grid>( container );
           if(grid == null) continue;
 
           // Select color based on ingredient name
           var targetColor = Colors.LightGray;
-          if(name.Equals( "Protein", StringComparison.OrdinalIgnoreCase ))
+          if(ingredient.Name.Equals( "Protein", StringComparison.OrdinalIgnoreCase ))
             targetColor = ((SolidColorBrush)dict["ProteinBrush"]).Color;
-          else if(name.Equals( "Seed", StringComparison.OrdinalIgnoreCase ))
+          else if(ingredient.Name.Equals( "Seed", StringComparison.OrdinalIgnoreCase ))
             targetColor = ((SolidColorBrush)dict["SeedBrush"]).Color;
-          else if(name.Equals( "Additive", StringComparison.OrdinalIgnoreCase ))
+          else if(ingredient.Name.Equals( "Additive", StringComparison.OrdinalIgnoreCase ))
             targetColor = ((SolidColorBrush)dict["AdditiveBrush"]).Color;
-          else if(name.Equals( "Well", StringComparison.OrdinalIgnoreCase ))
+          else if(ingredient.Name.Equals( "Well", StringComparison.OrdinalIgnoreCase ))
             targetColor = ((SolidColorBrush)dict["WellBrush"]).Color;
-          else if(name.Equals( "Fragment", StringComparison.OrdinalIgnoreCase ))
+          else if(ingredient.Name.Equals( "Fragment", StringComparison.OrdinalIgnoreCase ))
             targetColor = ((SolidColorBrush)dict["FragmentBrush"]).Color;
 
           // Create unfrozen brushes for animation

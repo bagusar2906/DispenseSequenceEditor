@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:helpers="clr-namespace:RMIDispenseSequenceEditor.Helpers"
+             xmlns:models="clr-namespace:RMIDispenseSequenceEditor.Models"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="600">
 
@@ -75,18 +76,32 @@
                     </ItemsControl.ItemContainerStyle>
 
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate DataType="{x:Type models:Ingredient}">
                             <!-- Outer container with single transform -->
                             <Grid RenderTransformOrigin="0.5,0.5">
+                                
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
                                 <Grid.RenderTransform>
                                     <TranslateTransform Y="0"/>
                                 </Grid.RenderTransform>
+                                
+                                <TextBlock Text="{Binding SequenceOrder}"
+                                           Style="{StaticResource IngredientTextStyle}"
+                                           FontWeight="SemiBold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
 
-                                <Border Style="{StaticResource IngredientBorderStyle}"
+                                
+                                <Border Grid.Column="1" Style="{StaticResource IngredientBorderStyle}"
                                         helpers:IngredientHelper.IsAnimated="True"
                                         Margin="0" Padding="6,2"
                                         SnapsToDevicePixels="True">
-                                    <TextBlock Text="{Binding}"
+                                    <TextBlock Text="{Binding Name}"
                                                Style="{StaticResource IngredientTextStyle}"
                                                FontWeight="SemiBold"
                                                HorizontalAlignment="Center"
@@ -126,18 +141,31 @@
 
                     
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate DataType="{x:Type models:Ingredient}">
                             <!-- Outer container with single transform -->
                             <Grid RenderTransformOrigin="0.5,0.5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
                                 <Grid.RenderTransform>
                                     <TranslateTransform Y="0"/>
                                 </Grid.RenderTransform>
+                                
+                                <TextBlock Text="{Binding SequenceOrder}"
+                                           Style="{StaticResource IngredientTextStyle}"
+                                           FontWeight="SemiBold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
 
-                                <Border Style="{StaticResource IngredientBorderStyle}"
+
+                                <Border Grid.Column="1" Style="{StaticResource IngredientBorderStyle}"
                                         helpers:IngredientHelper.IsAnimated="True"
                                         Margin="0" Padding="6,2"
                                         SnapsToDevicePixels="True">
-                                    <TextBlock Text="{Binding}"
+                                    <TextBlock Text="{Binding Name}"
                                                Style="{StaticResource IngredientTextStyle}"
                                                FontWeight="SemiBold"
                                                HorizontalAlignment="Center"
@@ -176,18 +204,30 @@
                     </ItemsControl.ItemContainerStyle>
                     
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate DataType="{x:Type models:Ingredient}">
                             <!-- Outer container with single transform -->
                             <Grid RenderTransformOrigin="0.5,0.5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
                                 <Grid.RenderTransform>
                                     <TranslateTransform Y="0"/>
                                 </Grid.RenderTransform>
+                                
+                                <TextBlock Text="{Binding SequenceOrder}"
+                                           Style="{StaticResource IngredientTextStyle}"
+                                           FontWeight="SemiBold"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           TextAlignment="Center"/>
 
-                                <Border Style="{StaticResource IngredientBorderStyle}"
+                                <Border Grid.Column="1" Style="{StaticResource IngredientBorderStyle}"
                                         helpers:IngredientHelper.IsAnimated="True"
                                         Margin="0" Padding="6,2"
                                         SnapsToDevicePixels="True">
-                                    <TextBlock Text="{Binding}"
+                                    <TextBlock Text="{Binding Name}"
                                                Style="{StaticResource IngredientTextStyle}"
                                                FontWeight="SemiBold"
                                                HorizontalAlignment="Center"

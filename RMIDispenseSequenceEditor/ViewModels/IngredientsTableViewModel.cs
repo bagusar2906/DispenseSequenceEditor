@@ -7,7 +7,7 @@ namespace RMIDispenseSequenceEditor.ViewModels
 {
   public class IngredientsTableViewModel : INotifyPropertyChanged
   {
-    private ObservableCollection<string> _column1Ingredients;
+    private ObservableCollection<Ingredient> _column1Ingredients;
 
     private int _insertCounter = 0;
 
@@ -18,23 +18,31 @@ namespace RMIDispenseSequenceEditor.ViewModels
 
     public void AddIngredient( int column, string[] names )
     {
+      var ingredients = new List<Ingredient>();
       foreach(var name in names)
       {
+        var ingredient = new Ingredient()
+        {
+          SequenceOrder = _insertCounter + 1,
+          Name = name,
+          Column = column
+        };
+        ingredients.Add(ingredient);
         switch(column)
         {
           case 1:
-            Column1Ingredients.Add( name );
+            Column1Ingredients.Add( ingredient );
             break;
           case 2:
-            Column2Ingredients.Add( name );
+            Column2Ingredients.Add( ingredient );
             break;
           case 3:
-            Column3Ingredients.Add( name );
+            Column3Ingredients.Add( ingredient );
             break;
         }
       }
       // store with sequence number
-      InsertSequence[_insertCounter++] = new DispenseSequence { Column = column, IngredientsName = names };
+      InsertSequence[_insertCounter++] = new DispenseSequence { Column = column, Ingredients = ingredients.ToArray() };
     }
 
     public void ClearAll()
@@ -46,7 +54,7 @@ namespace RMIDispenseSequenceEditor.ViewModels
       _insertCounter = 0;
     }
 
-    public ObservableCollection<string> Column1Ingredients
+    public ObservableCollection<Ingredient> Column1Ingredients
     {
       get => _column1Ingredients;
       set
@@ -56,8 +64,8 @@ namespace RMIDispenseSequenceEditor.ViewModels
       }
     }
 
-    private ObservableCollection<string> _column2Ingredients;
-    public ObservableCollection<string> Column2Ingredients
+    private ObservableCollection<Ingredient> _column2Ingredients;
+    public ObservableCollection<Ingredient> Column2Ingredients
     {
       get => _column2Ingredients;
       set
@@ -67,8 +75,8 @@ namespace RMIDispenseSequenceEditor.ViewModels
       }
     }
 
-    private ObservableCollection<string> _column3Ingredients;
-    public ObservableCollection<string> Column3Ingredients
+    private ObservableCollection<Ingredient> _column3Ingredients;
+    public ObservableCollection<Ingredient> Column3Ingredients
     {
       get => _column3Ingredients;
       set
