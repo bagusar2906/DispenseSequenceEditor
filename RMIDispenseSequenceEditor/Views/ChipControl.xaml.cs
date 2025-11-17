@@ -23,10 +23,91 @@ namespace RMIDispenseSequenceEditor.Views
             get => (ICommand)GetValue(RemoveCommandProperty);
             set => SetValue(RemoveCommandProperty, value);
         }
-
-        public object RemoveCommandParameter { get; }
+        
 
         public static readonly DependencyProperty RemoveCommandProperty =
-            DependencyProperty.Register("RemoveCommand", typeof(ICommand), typeof(ChipControl));
+            DependencyProperty.Register(nameof(RemoveCommand), typeof(ICommand), typeof(ChipControl));
+        
+        public ICommand MoveCommand
+        {
+            get => (ICommand)GetValue(MoveCommandProperty);
+            set => SetValue(MoveCommandProperty, value);
+        }
+
+        public static readonly DependencyProperty MoveCommandProperty =
+            DependencyProperty.Register(nameof(MoveCommand), typeof(ICommand),
+                typeof(ChipControl));
+
+
+        private void Chip_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            e.GetPosition(null);
+        }
+
+        private void Chip_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton != MouseButtonState.Pressed) return;
+            if (IsClickOnCloseButton(e))
+                return;
+            
+            var data = new DataObject();
+            data.SetData("ChipData", this.Text);   // <-- THE KEY
+            DragDrop.DoDragDrop(this, data, DragDropEffects.Move);
+        
+        }
+
+        private void Chip_DragEnter(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent("ChipData"))
+            {
+                e.Effects = DragDropEffects.None;
+            }
+            else
+            {
+                ChipBorder.Opacity = 0.5; // Highlight
+            }
+        }
+
+        private void Chip_DragLeave(object sender, DragEventArgs e)
+        {
+            ChipBorder.Opacity = 1;
+        }
+
+        private void Chip_Drop(object sender, DragEventArgs e)
+        {
+            ChipBorder.Opacity = 1;
+
+            if (!e.Data.GetDataPresent("ChipData"))
+                return;
+
+            string draggedText = (string)e.Data.GetData("ChipData");
+            string targetText = this.Text;
+
+            // Fire parent command (reorder)
+            MoveCommand?.Execute(new DragDropPair(draggedText, targetText));
+        }
+        
+        private bool IsClickOnCloseButton(MouseEventArgs e)
+        {
+            if (CloseButton == null)
+                return false;
+
+            var pos = e.GetPosition(CloseButton);
+            return pos.X >= 0 && pos.X <= CloseButton.ActualWidth &&
+                   pos.Y >= 0 && pos.Y <= CloseButton.ActualHeight;
+        }
+        
+    }
+    
+    public class DragDropPair
+    {
+        public string From { get; }
+        public string To { get; }
+
+        public DragDropPair(string from, string to)
+        {
+            From = from;
+            To = to;
+        }
     }
 }

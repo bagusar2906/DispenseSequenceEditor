@@ -196,15 +196,13 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <!--<Border Style="{StaticResource IngredientBorderStyle}">
-                                                <TextBlock Text="{Binding}"
-                                                           Style="{StaticResource IngredientTextStyle}" />
-                                            </Border>-->
                                             <views:ChipControl Text="{Binding}"
                                                                RemoveCommand="{Binding DataContext.RemoveStepCommand,
-                                                                RelativeSource={RelativeSource AncestorType=UserControl}}" />
-
-
+                                                               RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                               MoveCommand="{Binding DataContext.MoveChipCommand,
+                                                               RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            />
+                                            
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>

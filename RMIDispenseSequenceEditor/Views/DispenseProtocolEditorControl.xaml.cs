@@ -92,16 +92,14 @@ namespace RMIDispenseSequenceEditor.Views
 
         private void ParallelItemsControl_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed && _draggedItem != null)
-            {
-                var position = e.GetPosition(null);
-                var diff = _dragStartPoint - position;
+            if (e.LeftButton != MouseButtonState.Pressed || _draggedItem == null) return;
+            var position = e.GetPosition(null);
+            var diff = _dragStartPoint - position;
 
-                if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
-                    Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
-                {
-                    DragDrop.DoDragDrop((DependencyObject)sender, _draggedItem, DragDropEffects.Move);
-                }
+            if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
+                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
+            {
+                DragDrop.DoDragDrop((DependencyObject)sender, _draggedItem, DragDropEffects.Move);
             }
         }
 

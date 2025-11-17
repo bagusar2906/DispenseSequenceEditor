@@ -24,4 +24,36 @@ namespace RMIDispenseSequenceEditor.ViewModels
             remove { CommandManager.RequerySuggested -= value; }
         }
     }
+    
+    public class RelayCommand<T> : ICommand
+    {
+        private readonly Action<T> _execute;
+        private readonly Func<T, bool> _canExecute;
+
+        public RelayCommand(Action<T> execute, Func<T, bool> canExecute = null)
+        {
+            _execute = execute;
+            _canExecute = canExecute ?? (_ => true);
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            if (parameter is T t)
+                return _canExecute(t);
+
+            // handle null or wrong type
+            return _canExecute(default);
+        }
+
+        public void Execute(object parameter)
+        {
+            if (parameter is T t)
+                _execute(t);
+            else
+                _execute(default);
+        }
+
+        public event EventHandler CanExecuteChanged;
+    }
+
 }

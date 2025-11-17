@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using RMIDispenseSequenceEditor.Models;
+using RMIDispenseSequenceEditor.Views;
 
 namespace RMIDispenseSequenceEditor.ViewModels
 {
@@ -26,6 +27,7 @@ namespace RMIDispenseSequenceEditor.ViewModels
         public ICommand MoveDownCommand { get; set; }
         public ICommand SelectUpCommand { get; set; }
         public ICommand SelectDownCommand { get; set; }
+        public ICommand MoveChipCommand { get; set; }
 
 
         public DispenseProtocolEditorViewModel()
@@ -40,6 +42,7 @@ namespace RMIDispenseSequenceEditor.ViewModels
             SelectUpCommand = new RelayCommand(SelectUpCommandHandler, _ => CanSelectUp);
             SelectDownCommand = new RelayCommand(SelectDownCommandHandler, _ => CanSelectDown);
             PreviewCommand = new RelayCommand(PreviewCommandHandler);
+            MoveChipCommand = new RelayCommand<DragDropPair>(MoveChipCommandHandler);
 
             SelectedIngredient = Ingredients[0];
             IngredientsTable = new IngredientsTableViewModel
@@ -50,6 +53,26 @@ namespace RMIDispenseSequenceEditor.ViewModels
             };
         }
 
+        private void MoveChipCommandHandler(DragDropPair pair)
+        {
+            var from = pair.From;
+            var to = pair.To;
+
+            var fromSeq = Sequences.FirstOrDefault(v => v.ParallelIngredients.Contains(from));
+            var toSeq = Sequences.FirstOrDefault(v => v.ParallelIngredients.Contains(to));
+            int oldIndex = Sequences.IndexOf(fromSeq);
+            int newIndex = Sequences.IndexOf(toSeq);
+
+            if (oldIndex < 0 || newIndex < 0 || oldIndex == newIndex)
+                return;
+
+            Sequences.Move(oldIndex, newIndex);
+            
+            RaiseNavStateChanged();
+        }
+
+       
+        
         private void PreviewCommandHandler(object obj)
         {
             IngredientsTable.ClearAll();
@@ -154,7 +177,7 @@ namespace RMIDispenseSequenceEditor.ViewModels
 
         private void RemoveStepCommandHandler(object ingredientName)
         {
-            //if (SelectedSequence == null) return;
+           // if (SelectedSequence == null) return;
             var sequenceToBeRemoved =  Sequences.FirstOrDefault(v => v.ParallelIngredients.Contains(ingredientName.ToString()));
             if (sequenceToBeRemoved == null) 
                 return;
