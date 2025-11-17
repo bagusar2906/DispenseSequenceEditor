@@ -106,7 +106,7 @@
                     </ListBox>
                 </ScrollViewer>
 
-                <StackPanel Grid.Row="1" Orientation="Horizontal" Height="30" 
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Height="30"
                             Margin="0,20,0,0"
                             HorizontalAlignment="Center">
                     <Button Command="{Binding AddStepCommand}" ToolTip="Add Step" Margin="2">
@@ -163,7 +163,7 @@
             </Grid.ColumnDefinitions>
             <!-- Main Step List -->
             <ListBox Grid.Column="0" x:Name="StepList"
-                    
+
                      ItemsSource="{Binding Sequences}"
                      SelectedItem="{Binding SelectedSequence}"
                      AllowDrop="True"
@@ -196,10 +196,15 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Border Style="{StaticResource IngredientBorderStyle}">
+                                            <!--<Border Style="{StaticResource IngredientBorderStyle}">
                                                 <TextBlock Text="{Binding}"
                                                            Style="{StaticResource IngredientTextStyle}" />
-                                            </Border>
+                                            </Border>-->
+                                            <views:ChipControl Text="{Binding}"
+                                                               RemoveCommand="{Binding DataContext.RemoveStepCommand,
+                                                                RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
+
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
@@ -220,8 +225,8 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <views:IngredientsTableControl x:Name="IngredientsTable"
-                DataContext="{Binding IngredientsTable}"
-                Grid.Column="1" />
+                                           DataContext="{Binding IngredientsTable}"
+                                           Grid.Column="1" />
         </Grid>
     </Grid>
 </UserControl>

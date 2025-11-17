@@ -99,6 +99,9 @@
     <Compile Include="ViewModels\DispenseProtocolEditorViewModel.cs" />
     <Compile Include="ViewModels\IngredientsTableViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
+    <Compile Include="Views\ChipControl.xaml.cs">
+      <DependentUpon>ChipControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DispenseProtocolEditorControl.xaml.cs">
       <DependentUpon>DispenseProtocolEditorControl.xaml</DependentUpon>
     </Compile>
@@ -120,6 +123,7 @@
     <Page Include="Styles\IngredientsColors.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ChipControl.xaml" />
     <Page Include="Views\DispenseProtocolEditorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

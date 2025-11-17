@@ -152,16 +152,20 @@ namespace RMIDispenseSequenceEditor.ViewModels
                 SelectedSequence = Sequences[index + 1];
         }
 
-        private void RemoveStepCommandHandler(object obj)
+        private void RemoveStepCommandHandler(object ingredientName)
         {
-            if (SelectedSequence == null) return;
-            foreach (var step in SelectedSequence)
+            //if (SelectedSequence == null) return;
+            var sequenceToBeRemoved =  Sequences.FirstOrDefault(v => v.ParallelIngredients.Contains(ingredientName.ToString()));
+            if (sequenceToBeRemoved == null) 
+                return;
+            
+            foreach (var sequence in sequenceToBeRemoved)
             {
-                Ingredients.Add(step.ToString());
+                Ingredients.Add(sequence.ToString());
             }
 
-            SelectedIngredient = Ingredients[0];
-            RemoveStep(SelectedSequence);
+            //SelectedIngredient = Ingredients[0];
+            RemoveStep(sequenceToBeRemoved);
         }
 
         private void AddParallelStepCommandHandler(object obj)
