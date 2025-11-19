@@ -5,6 +5,6 @@
         Title="Dispense Sequence Editor" Height="650" Width="900">
 
     <Grid>
-        <views:DispenseProtocolEditorControl/>
+        <views:DispenseSequenceEditorControl/>
     </Grid>
 </Window>

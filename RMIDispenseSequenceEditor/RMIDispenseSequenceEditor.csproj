@@ -84,7 +84,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\InverseBoolConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityInverseConverter.cs" />
     <Compile Include="Converters\DelayConverter.cs" />
     <Compile Include="Converters\CheckBoxVisibilityConverter.cs" />
     <Compile Include="Converters\IngredientCheckBoxLabelConverter.cs" />
@@ -96,6 +97,8 @@
     <Compile Include="Models\Ingredient.cs" />
     <Compile Include="Models\Sequence.cs" />
     <Compile Include="SimulateDispense.cs" />
+    <Compile Include="ViewModels\DestinationSlot.cs" />
+    <Compile Include="ViewModels\StepViewModel.cs" />
     <Compile Include="ViewModels\DispenseProtocolEditorViewModel.cs" />
     <Compile Include="ViewModels\IngredientsTableViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
@@ -104,6 +107,9 @@
     </Compile>
     <Compile Include="Views\DispenseProtocolEditorControl.xaml.cs">
       <DependentUpon>DispenseProtocolEditorControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DispenseSequenceEditorControl.xaml.cs">
+      <DependentUpon>DispenseSequenceEditorControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\IngredientsTableControl.xaml.cs">
       <DependentUpon>IngredientsTableControl.xaml</DependentUpon>
@@ -128,6 +134,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\DispenseSequenceEditorControl.xaml" />
     <Page Include="Views\IngredientsTableControl.xaml" />
   </ItemGroup>
   <ItemGroup>

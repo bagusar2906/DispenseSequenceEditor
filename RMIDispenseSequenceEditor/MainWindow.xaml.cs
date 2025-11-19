@@ -9,6 +9,7 @@ using Microsoft.Win32;
 using Newtonsoft.Json;
 using RMIDispenseSequenceEditor.Models;
 using RMIDispenseSequenceEditor.ViewModels;
+using RMIDispenseSequenceEditor.Views;
 
 namespace RMIDispenseSequenceEditor
 {
@@ -17,14 +18,19 @@ namespace RMIDispenseSequenceEditor
     /// </summary>
     public partial class MainWindow : Window
     {
-        public DispenseProtocolEditorViewModel ViewModel { get; set; }
+        public StepViewModel ViewModel { get; set; }
 
         
         public MainWindow()
         {
             InitializeComponent();
          //   var simulator = new SimulateDispense()
-            ViewModel = new DispenseProtocolEditorViewModel();
+           // ViewModel = new DispenseProtocolEditorViewModel();
+           ViewModel = new StepViewModel();
+           ViewModel.Ingredients = new ObservableCollection<string>()
+           {
+               "Protein", "Well", "Seed", "Fragment", "Additive"
+           };
             DataContext = ViewModel;
         }
 

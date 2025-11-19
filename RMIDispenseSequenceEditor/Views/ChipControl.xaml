@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="RMIDispenseSequenceEditor.Views.ChipControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:RMIDispenseSequenceEditor.Converters"
              PreviewMouseMove="Chip_PreviewMouseMove"
              PreviewMouseLeftButtonDown="Chip_PreviewMouseLeftButtonDown"
              AllowDrop="True"
@@ -15,8 +16,15 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/RMIDispenseSequenceEditor;component/Styles/IngredientsColors.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            
+            <converters:BoolToVisibilityInverseConverter x:Key="BoolToVisibilityInverseConverter"/>
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
         </ResourceDictionary>
+        
+      
     </UserControl.Resources>
+    
+  
     
     <Border x:Name="ChipBorder"
             Style="{StaticResource IngredientBorderStyle}"
@@ -46,6 +54,12 @@
                     BorderThickness="0"
                     Padding="0"
                     Cursor="Hand"
+                    Visibility="{Binding IsFromSource, 
+                     RelativeSource={RelativeSource AncestorType=UserControl},
+                     Converter={StaticResource BoolToVisibilityInverseConverter}}"
+                    IsEnabled="{Binding IsFromSource, 
+                    RelativeSource={RelativeSource AncestorType=UserControl},
+                    Converter={StaticResource InverseBoolConverter}}"
                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=RemoveCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Text}"
             >

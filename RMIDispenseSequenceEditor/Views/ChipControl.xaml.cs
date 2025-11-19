@@ -38,6 +38,16 @@ namespace RMIDispenseSequenceEditor.Views
             DependencyProperty.Register(nameof(MoveCommand), typeof(ICommand),
                 typeof(ChipControl));
 
+        public bool IsFromSource
+        {
+            get { return (bool)GetValue(IsFromSourceProperty); }
+            set { SetValue(IsFromSourceProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsFromSourceProperty =
+            DependencyProperty.Register(nameof(IsFromSource), typeof(bool), typeof(ChipControl),
+                new PropertyMetadata(false));
+
 
         private void Chip_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
