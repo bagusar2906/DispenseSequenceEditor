@@ -6,13 +6,12 @@
              xmlns:local="clr-namespace:RMIDispenseSequenceEditor.Views"
              mc:Ignorable="d">
 
-
     <Grid Margin="10">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>  <!-- Source Ingredient List -->
-            <RowDefinition Height="10"/>
-            <RowDefinition Height="*"/>     <!-- Destination Rows -->
+            <RowDefinition Height="Auto" />  <!-- Source Ingredient List -->
+            <RowDefinition Height="10" />
+            <RowDefinition Height="*" />     <!-- Destination Rows -->
         </Grid.RowDefinitions>
 
 
@@ -30,7 +29,7 @@
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal"
                                    ItemWidth="120"
-                                   ItemHeight="70"/>
+                                   ItemHeight="70" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
 
@@ -39,11 +38,11 @@
                         <local:ChipControl
                             IsFromSource="True"
                             Text="{Binding}"
-                                           Margin="0 6 6 0">
+                            Margin="0 6 6 0">
                             <local:ChipControl.Style>
                                 <Style TargetType="local:ChipControl">
                                     <EventSetter Event="PreviewMouseMove"
-                                                 Handler="SourceChip_PreviewMouseMove"/>
+                                                 Handler="SourceChip_PreviewMouseMove" />
                                 </Style>
                             </local:ChipControl.Style>
                         </local:ChipControl>
@@ -52,7 +51,6 @@
             </ItemsControl>
 
         </StackPanel>
-
 
 
         <!-- ======================================================
@@ -69,116 +67,127 @@
                                     Margin="0 10 0 0">
 
 
-                            <!-- ===============================================
-                                 ROW HEADER: DRAG HANDLE + ROW INDEX
-                            ================================================ -->
-                            <StackPanel Orientation="Horizontal"
-                                        VerticalAlignment="Center"
-                                        Margin="0 0 0 5">
+                            <!-- ======================================================
+                                 ONE HORIZONTAL LINE: DRAG HANDLE + ROW INDEX + DROP AREA
+                            ======================================================= -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30" />   <!-- Drag handle -->
+                                    <ColumnDefinition Width="30" />   <!-- Row index -->
+                                    <ColumnDefinition Width="*" />    <!-- Drop Area -->
+                                </Grid.ColumnDefinitions>
 
                                 <!-- Drag Handle -->
-                                <Grid Width="24" Height="24"
-                                      Margin="0 0 6 0"
-                                      Cursor="SizeAll">
-                                    <Grid Background="Transparent"/>
-                                    <TextBlock Text="≡"
+                                <Grid Grid.Column="0"
+                                      Width="24" Height="24"
+                                      Cursor="SizeAll"
+                                      Margin="0 0 6 0">
+                                    <Grid Background="Transparent" />
+                                    <TextBlock Text="⋮⋮"
                                                FontSize="18"
-                                               FontWeight="Bold"
-                                               VerticalAlignment="Center"
+                                               Foreground="#777"
                                                HorizontalAlignment="Center"/>
                                 </Grid>
 
                                 <!-- Row Index -->
-                                <TextBlock Text="{Binding SlotIndex, StringFormat=Row {0}}"
-                                           FontWeight="Bold"
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding SlotIndex}"
                                            VerticalAlignment="Center"
-                                           FontSize="16"/>
-                            </StackPanel>
+                                           FontSize="14" />
 
 
+                                <!-- ================= DROP AREA (INLINE) ================= -->
+                                <Grid Grid.Column="2"
+                                      Height="60"
+                                      Margin="2 0 0 0"
+                                      AllowDrop="True"
+                                      Tag="{Binding SlotIndex}">
 
-                            <!-- ===============================================
-                                 DROP BORDER THAT HOLDS CHIPS INSIDE
-                            ================================================ -->
-                            <Grid Margin="0 8 0 0"
-                                  Height="70"
-                                  AllowDrop="True"
-                                  Tag="{Binding SlotIndex}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
-                                <!-- Dashed Border -->
-                                <Rectangle Stroke="#888"
-                                           StrokeThickness="2"
-                                           StrokeDashArray="4 4"
-                                           Fill="#04FFFFFF"
-                                           RadiusX="6"
-                                           RadiusY="6"/>
+                                    <!-- Dashed Border -->
+                                    <Rectangle Stroke="#888"
+                                               StrokeThickness="1"
+                                               StrokeDashArray="3 3"
+                                               Width="400"
+                                               Fill="#04FFFFFF"
+                                               RadiusX="6"
+                                               RadiusY="6" />
 
-                                <!-- Chips inside border -->
-                                <ItemsControl ItemsSource="{Binding Chips}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal"
-                                                        VerticalAlignment="Center"
-                                                        Margin="10 0"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
+                                    <!-- Chips inside -->
+                                    <ItemsControl Grid.Column="0"
+                                                  ItemsSource="{Binding Chips}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal"
+                                                            VerticalAlignment="Center"
+                                                            Margin="10 0" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
 
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <local:ChipControl
-                                                IsFromSource="False"
-                                                Text="{Binding}"
-                                                               Margin="0 0 8 0">
-                                                <local:ChipControl.Style>
-                                                    <Style TargetType="local:ChipControl">
-                                                        <EventSetter Event="PreviewMouseMove"
-                                                                     Handler="SlotChip_PreviewMouseMove"/>
-                                                    </Style>
-                                                </local:ChipControl.Style>
-                                            </local:ChipControl>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <local:ChipControl
+                                                    IsFromSource="False"
+                                                    Text="{Binding}"
+                                                    Margin="0 0 8 0">
+                                                    <local:ChipControl.Style>
+                                                        <Style TargetType="local:ChipControl">
+                                                            <EventSetter Event="PreviewMouseMove"
+                                                                         Handler="SlotChip_PreviewMouseMove" />
+                                                        </Style>
+                                                    </local:ChipControl.Style>
+                                                </local:ChipControl>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
 
-                                <!-- Placeholder when empty -->
-                                <TextBlock Text="{Binding PlaceholderText}"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           Foreground="#777"
-                                           FontStyle="Italic"
-                                           IsHitTestVisible="False" />
+                                    <!-- Placeholder -->
+                                    <TextBlock Grid.Column="0"
+                                               Text="{Binding PlaceholderText}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Foreground="#777"
+                                               FontStyle="Italic"
+                                               IsHitTestVisible="False" />
 
-                                <!-- Drop Event Handlers -->
-                                <Grid.Style>
-                                    <Style TargetType="Grid">
-                                        <EventSetter Event="DragEnter" Handler="RowPlaceholder_DragEnter"/>
-                                        <EventSetter Event="DragLeave" Handler="RowPlaceholder_DragLeave"/>
-                                        <EventSetter Event="DragOver"  Handler="RowPlaceholder_DragOver"/>
-                                        <EventSetter Event="Drop"      Handler="RowPlaceholder_Drop"/>
-                                    </Style>
-                                </Grid.Style>
+                                    <!-- Drag-drop handlers -->
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <EventSetter Event="DragEnter" Handler="RowPlaceholder_DragEnter" />
+                                            <EventSetter Event="DragLeave" Handler="RowPlaceholder_DragLeave" />
+                                            <EventSetter Event="DragOver" Handler="RowPlaceholder_DragOver" />
+                                            <EventSetter Event="Drop" Handler="RowPlaceholder_Drop" />
+                                        </Style>
+                                    </Grid.Style>
+
+                                </Grid>
 
                             </Grid>
 
 
-
                             <!-- ===============================================
-                                 MODE SELECTION BELOW ROW
+                                 MODE SELECTION BELOW
                             ================================================ -->
-                            <StackPanel Orientation="Horizontal"
-                                        Margin="0 8 0 0">
+                            <StackPanel Orientation="Horizontal" Margin="60,8,0,5">
 
-                                <TextBlock Text="Mode:"
-                                           VerticalAlignment="Center"
-                                           Margin="0 0 8 0"/>
+                                <RadioButton Content="Normal"
+                                             Margin="0,0,16,0"
+                                             GroupName="{Binding StepIndex}"
+                                             IsChecked="{Binding IsNormal}" />
 
-                                <ComboBox Width="130"
-                                          SelectedItem="{Binding Mode}">
-                                    <ComboBoxItem Content="Normal"/>
-                                    <ComboBoxItem Content="Parallel"/>
-                                    <ComboBoxItem Content="Repeat"/>
-                                    <ComboBoxItem Content="Wait"/>
-                                </ComboBox>
+                                <RadioButton Content="Batch"
+                                             Margin="0,0,16,0"
+                                             GroupName="{Binding StepIndex}"
+                                             IsChecked="{Binding IsBatch}" />
+
+                                <RadioButton Content="Aliquoting"
+                                             GroupName="{Binding StepIndex}"
+                                             IsChecked="{Binding IsAliquoting}" />
+
                             </StackPanel>
 
                         </StackPanel>
@@ -189,7 +198,5 @@
 
         </ScrollViewer>
 
-
     </Grid>
 </UserControl>
-

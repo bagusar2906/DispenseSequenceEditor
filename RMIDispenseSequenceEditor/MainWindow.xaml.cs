@@ -18,7 +18,7 @@ namespace RMIDispenseSequenceEditor
     /// </summary>
     public partial class MainWindow : Window
     {
-        public StepViewModel ViewModel { get; set; }
+        public DispenseSequenceViewModel ViewModel { get; set; }
 
         
         public MainWindow()
@@ -26,7 +26,7 @@ namespace RMIDispenseSequenceEditor
             InitializeComponent();
          //   var simulator = new SimulateDispense()
            // ViewModel = new DispenseProtocolEditorViewModel();
-           ViewModel = new StepViewModel();
+           ViewModel = new DispenseSequenceViewModel();
            ViewModel.Ingredients = new ObservableCollection<string>()
            {
                "Protein", "Well", "Seed", "Fragment", "Additive"

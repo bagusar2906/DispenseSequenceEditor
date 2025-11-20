@@ -8,9 +8,21 @@ namespace RMIDispenseSequenceEditor.ViewModels
 
     public class DestinationSlot : INotifyPropertyChanged
     {
+        public DestinationSlot()
+        {
+            Chips.CollectionChanged += (s, e) =>
+            {
+                Notify(nameof(PlaceholderText));
+            };
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public int SlotIndex { get; set; }
+        
+        public bool IsNormal { get; set; }
+        public bool IsBatch { get; set; }
+        public bool IsAliquot { get; set; }
 
         public ObservableCollection<string> Chips { get; set; }
             = new ObservableCollection<string>();

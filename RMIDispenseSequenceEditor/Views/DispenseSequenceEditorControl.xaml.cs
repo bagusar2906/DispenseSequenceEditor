@@ -31,7 +31,7 @@ namespace RMIDispenseSequenceEditor.Views
                 data.SetData("ChipData", chip);
 
                 // REMOVE from source BEFORE drag
-                if (DataContext is StepViewModel vm)
+                if (DataContext is DispenseSequenceViewModel vm)
                 {
                     vm.Ingredients.Remove(chip);
                 }
@@ -113,7 +113,7 @@ namespace RMIDispenseSequenceEditor.Views
             var grid = sender as Grid;
             int slotIndex = (int)grid.Tag;
 
-            if (DataContext is StepViewModel vm)
+            if (DataContext is DispenseSequenceViewModel vm)
             {
                 vm.AddOrMoveChip(chip, slotIndex);
             }

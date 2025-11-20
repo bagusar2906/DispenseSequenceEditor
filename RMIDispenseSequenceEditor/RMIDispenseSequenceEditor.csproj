@@ -98,7 +98,7 @@
     <Compile Include="Models\Sequence.cs" />
     <Compile Include="SimulateDispense.cs" />
     <Compile Include="ViewModels\DestinationSlot.cs" />
-    <Compile Include="ViewModels\StepViewModel.cs" />
+    <Compile Include="ViewModels\DispenseSequenceViewModel.cs" />
     <Compile Include="ViewModels\DispenseProtocolEditorViewModel.cs" />
     <Compile Include="ViewModels\IngredientsTableViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />

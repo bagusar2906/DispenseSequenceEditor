@@ -4,11 +4,8 @@ using System.Linq;
 
 namespace RMIDispenseSequenceEditor.ViewModels
 {
-  
-    using System.Collections.ObjectModel;
-using System.ComponentModel;
 
-public class StepViewModel : INotifyPropertyChanged
+    public class DispenseSequenceViewModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -27,7 +24,7 @@ public class StepViewModel : INotifyPropertyChanged
     // ----------------------------
     // Constructor
     // ----------------------------
-    public StepViewModel(int slotCount = 5)
+    public DispenseSequenceViewModel(int slotCount = 5)
     {
         GenerateSlots(slotCount);
     }
@@ -40,7 +37,7 @@ public class StepViewModel : INotifyPropertyChanged
     {
         Slots.Clear();
 
-        for (int i = 0; i < count; i++)
+        for (int i = 1; i <= count; i++)
         {
             Slots.Add(new DestinationSlot
             {
@@ -79,7 +76,7 @@ public class StepViewModel : INotifyPropertyChanged
         }
 
         // Add to destination slot
-        var target = Slots[targetSlotIndex];
+        var target = Slots[targetSlotIndex - 1];
 
         if (!target.Chips.Contains(chip))
         {
