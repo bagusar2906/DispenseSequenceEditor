@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -16,13 +17,24 @@ namespace RMIDispenseSequenceEditor.Views
             set => SetValue(TextProperty, value);
         }
         public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(ChipControl));
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(ChipControl));
 
         public ICommand RemoveCommand
         {
             get => (ICommand)GetValue(RemoveCommandProperty);
             set => SetValue(RemoveCommandProperty, value);
         }
+        
+        // inside ChipControl class
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register(nameof(CommandParameter), typeof(object), typeof(ChipControl), new PropertyMetadata(null));
+
+        public object CommandParameter
+        {
+            get => GetValue(CommandParameterProperty);
+            set => SetValue(CommandParameterProperty, value);
+        }
+
         
 
         public static readonly DependencyProperty RemoveCommandProperty =
@@ -38,10 +50,19 @@ namespace RMIDispenseSequenceEditor.Views
             DependencyProperty.Register(nameof(MoveCommand), typeof(ICommand),
                 typeof(ChipControl));
 
+        public static readonly DependencyProperty SlotIndexProperty =
+            DependencyProperty.Register(nameof(SlotIndex), typeof(int), typeof(ChipControl));
+        
+        public int SlotIndex
+        {
+            get => (int)GetValue(SlotIndexProperty);
+            set => SetValue(SlotIndexProperty, value);
+        }
+
         public bool IsFromSource
         {
-            get { return (bool)GetValue(IsFromSourceProperty); }
-            set { SetValue(IsFromSourceProperty, value); }
+            get => (bool)GetValue(IsFromSourceProperty);
+            set => SetValue(IsFromSourceProperty, value);
         }
 
         public static readonly DependencyProperty IsFromSourceProperty =

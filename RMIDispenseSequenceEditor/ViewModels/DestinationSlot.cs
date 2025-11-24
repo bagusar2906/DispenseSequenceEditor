@@ -1,7 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-
-namespace RMIDispenseSequenceEditor.ViewModels
+﻿namespace RMIDispenseSequenceEditor.ViewModels
 {
     using System.Collections.ObjectModel;
     using System.ComponentModel;
@@ -14,6 +11,7 @@ namespace RMIDispenseSequenceEditor.ViewModels
             {
                 Notify(nameof(PlaceholderText));
             };
+            IsNormal = true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -40,12 +40,19 @@
                               Opacity="0.2"/>
         </Border.Effect>
 
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+            <TextBlock Text="⋮⋮"
+                       FontSize="18"
+                       Foreground="White"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"/>
+            
             <TextBlock Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                       FontSize="14"
-                       Foreground="#333"
+                       FontSize="12"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
                        Style="{StaticResource IngredientTextStyle}"
-                       Margin="0,0,6,0" />
+                       Margin="10,0,6,0" />
             
             <Button x:Name="CloseButton"
                     Width="14"
@@ -55,7 +62,7 @@
                     Padding="0"
                     Cursor="Hand"
                     Visibility="{Binding IsFromSource, 
-                     RelativeSource={RelativeSource AncestorType=UserControl},
+                    RelativeSource={RelativeSource AncestorType=UserControl},
                      Converter={StaticResource BoolToVisibilityInverseConverter}}"
                     IsEnabled="{Binding IsFromSource, 
                     RelativeSource={RelativeSource AncestorType=UserControl},
