@@ -221,7 +221,7 @@
             <!-- Right panel -->
             <StackPanel Grid.Row="2" Grid.Column="1" Margin="0,20,20,0">
                 <TextBlock
-                    Text="Preview"
+                    Text="Preview Result"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="#777"
@@ -234,14 +234,15 @@
                 <local:IngredientsTableControl x:Name="IngredientsTable"
                                                DataContext="{Binding IngredientsTable}"
                                                />
+                <Button Content="Preview"
+                        HorizontalAlignment="Right"
+                        Command="{Binding PreviewCommand}"
+                        IsEnabled="{Binding CanPreview}"
+                        FontSize="14" Width="100" Margin="4,0,10,0" />
             </StackPanel>
 
         </Grid>
         <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal">
-            <Button Content="Preview"
-                    Command="{Binding PreviewCommand}"
-                    IsEnabled="{Binding CanPreview}"
-                    FontSize="14" Width="100" Margin="4,0,10,0" />
             <Button Content="Cancel"
                     Command="{Binding CancelCommand}"
                     IsEnabled="{Binding CanCancel}"

@@ -32,6 +32,7 @@ namespace RMIDispenseSequenceEditor.ViewModels
     
     public ICommand PreviewCommand { get; set; }
 
+    public bool CanPreview => Slots.Sum(slot => slot.Chips.Count) > 0;
     
     // ----------------------------
     // Constructor
@@ -93,7 +94,7 @@ namespace RMIDispenseSequenceEditor.ViewModels
     // ----------------------------
     // Create placeholder rows
     // ----------------------------
-    public void GenerateSlots(int count)
+    private void GenerateSlots(int count)
     {
         Slots.Clear();
 
@@ -127,12 +128,10 @@ namespace RMIDispenseSequenceEditor.ViewModels
         // Remove from ANY slot that contains it
         foreach (var slot in Slots)
         {
-            if (slot.Chips.Contains(chip))
-            {
-                slot.Chips.Remove(chip);
-                slot.Notify(nameof(slot.Chips));
-                break;
-            }
+            if (!slot.Chips.Contains(chip)) continue;
+            slot.Chips.Remove(chip);
+            slot.Notify(nameof(slot.Chips));
+            break;
         }
 
         // Add to destination slot
@@ -145,8 +144,9 @@ namespace RMIDispenseSequenceEditor.ViewModels
         }
 
         Notify(nameof(Slots));
+        Notify(nameof(CanPreview));
         
-        
+
         //FixInconsistentDispense();
         //UpdatePreviewTable();
     }
