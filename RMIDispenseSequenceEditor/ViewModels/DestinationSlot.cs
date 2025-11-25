@@ -28,6 +28,8 @@
         public string PlaceholderText =>
             Chips.Count == 0 ? "Drop ingredients here" : "";
 
+        public bool IsAlternate { get; set; }
+
         public void Notify(string name) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }

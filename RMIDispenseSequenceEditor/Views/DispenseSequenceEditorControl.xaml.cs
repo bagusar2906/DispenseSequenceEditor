@@ -12,9 +12,21 @@ namespace RMIDispenseSequenceEditor.Views
         public DispenseSequenceEditorControl()
         {
             InitializeComponent();
+            Loaded += OnLoaded;
         }
 
-
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is DispenseSequenceViewModel vm)
+            {
+                vm.PreviewResultCompleted += async (_, __) =>
+                {
+                    //await IngredientsTable.PlayStackingAnimationAsync(500);
+                    await IngredientsTable.PlayBottomUpByColumnAsync(500);
+                };
+            }
+        }
+        
         // ============================================================
         // SOURCE INGREDIENT DRAG (Left Column)
         // ============================================================
