@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -79,8 +78,11 @@ namespace RMIDispenseSequenceEditor.Views
         {
             if (e.LeftButton != MouseButtonState.Pressed) return;
             if (IsClickOnCloseButton(e))
+            {
+                RemoveCommand?.Execute(Text);
                 return;
-            
+            }
+
             var data = new DataObject();
             data.SetData("ChipData", this.Text);   // <-- THE KEY
             DragDrop.DoDragDrop(this, data, DragDropEffects.Move);
@@ -99,9 +101,11 @@ namespace RMIDispenseSequenceEditor.Views
             }
         }
 
+        private bool _isPrevStateDragLeave = false;
         private void Chip_DragLeave(object sender, DragEventArgs e)
         {
             ChipBorder.Opacity = 1;
+            _isPrevStateDragLeave = true;
         }
 
         private void Chip_Drop(object sender, DragEventArgs e)
@@ -111,6 +115,10 @@ namespace RMIDispenseSequenceEditor.Views
             if (!e.Data.GetDataPresent("ChipData"))
                 return;
 
+            if (!_isPrevStateDragLeave)
+                return;
+            _isPrevStateDragLeave = false;
+            
             string draggedText = (string)e.Data.GetData("ChipData");
             string targetText = this.Text;
 

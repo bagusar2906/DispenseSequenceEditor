@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using RMIDispenseSequenceEditor.Models;
+using RMIDispenseSequenceEditor.Views;
 
 namespace RMIDispenseSequenceEditor.ViewModels
 {
@@ -31,6 +32,9 @@ namespace RMIDispenseSequenceEditor.ViewModels
     public ICommand RemoveIngredientCommand { get; set; }
     
     public ICommand PreviewCommand { get; set; }
+    
+    public ICommand MoveChipCommand { get; set; }
+
 
     public bool CanPreview => Slots.Sum(slot => slot.Chips.Count) > 0;
     
@@ -40,8 +44,9 @@ namespace RMIDispenseSequenceEditor.ViewModels
     public DispenseSequenceViewModel()
     {
         
-        RemoveIngredientCommand = new RelayCommand(OnRemoveIngredient);
+        RemoveIngredientCommand = new RelayCommand<string>(OnRemoveIngredient);
         PreviewCommand = new RelayCommand(PreviewCommandHandler);
+        MoveChipCommand = new RelayCommand<DragDropPair>(MoveChipCommandHandler);
         
         IngredientsTable = new IngredientsTableViewModel
         {
@@ -56,7 +61,12 @@ namespace RMIDispenseSequenceEditor.ViewModels
         };
         GenerateSlots(slotCount);
     }
-    
+
+    private void MoveChipCommandHandler(DragDropPair obj)
+    {
+        
+    }
+
     private void PreviewCommandHandler(object obj)
     {
         IngredientsTable.ClearAll();
@@ -69,9 +79,9 @@ namespace RMIDispenseSequenceEditor.ViewModels
     }
 
  
-    private void OnRemoveIngredient(object ingredientName)
+    private void OnRemoveIngredient(string ingredientName)
     {
-        if (string.IsNullOrWhiteSpace(ingredientName.ToString()))
+        if (string.IsNullOrWhiteSpace(ingredientName))
             return;
 
         // 1. Remove ingredient from whichever slot contains it
@@ -79,7 +89,7 @@ namespace RMIDispenseSequenceEditor.ViewModels
         {
             if (slot.Chips.Contains(ingredientName))
             {
-                slot.Chips.Remove(ingredientName.ToString());
+                slot.Chips.Remove(ingredientName);
                 break;
             }
         }
@@ -87,7 +97,7 @@ namespace RMIDispenseSequenceEditor.ViewModels
         // 2. Add back to source list (if not already there)
         if (!Ingredients.Contains(ingredientName))
         {
-            Ingredients.Add(ingredientName.ToString());
+            Ingredients.Add(ingredientName);
         }
     }
 
