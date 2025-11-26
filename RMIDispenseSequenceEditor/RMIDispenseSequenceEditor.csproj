@@ -105,14 +105,26 @@
     <Compile Include="Views\ChipControl.xaml.cs">
       <DependentUpon>ChipControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\DispensePropertiesControl.xaml.cs">
+      <DependentUpon>DispensePropertiesControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DispenseProtocolEditorControl.xaml.cs">
       <DependentUpon>DispenseProtocolEditorControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DispenseSequenceEditorControl.xaml.cs">
       <DependentUpon>DispenseSequenceEditorControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ExperimentInfoControl.xaml.cs">
+      <DependentUpon>ExperimentInfoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExperimentPropertyControl.xaml.cs">
+      <DependentUpon>ExperimentPropertyControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\IngredientsTableControl.xaml.cs">
       <DependentUpon>IngredientsTableControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LCPDispensePropertiesControl.xaml.cs">
+      <DependentUpon>LCPDispensePropertiesControl.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -129,13 +141,18 @@
     <Page Include="Styles\IngredientsColors.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Styles\RMIntegration.xaml" />
     <Page Include="Views\ChipControl.xaml" />
+    <Page Include="Views\DispensePropertiesControl.xaml" />
     <Page Include="Views\DispenseProtocolEditorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DispenseSequenceEditorControl.xaml" />
+    <Page Include="Views\ExperimentInfoControl.xaml" />
+    <Page Include="Views\ExperimentPropertyControl.xaml" />
     <Page Include="Views\IngredientsTableControl.xaml" />
+    <Page Include="Views\LCPDispensePropertiesControl.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

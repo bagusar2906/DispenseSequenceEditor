@@ -9,6 +9,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/IngredientsColors.xaml"/>
+                <ResourceDictionary Source="/Styles/RMIntegration.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <SolidColorBrush x:Key="PrimaryBackground" Color="#FFF7F7F7"/>
             <SolidColorBrush x:Key="CardBackground" Color="#FFFFFFFF"/>

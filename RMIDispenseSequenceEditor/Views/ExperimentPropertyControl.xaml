@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="RMIDispenseSequenceEditor.Views.ExperimentPropertyControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:RMIDispenseSequenceEditor.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="150" d:DesignWidth="500">
+        <Grid Margin="5,5,5,5" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Table -->
+                <Grid Grid.Column="0" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Header -->
+                    <TextBlock Text="Property" Grid.Row="0" Grid.Column="0" Background="#F5F5F5" Height="25"
+                               Margin="0,0,0,10" 
+                               Style="{StaticResource TextStyle}" FontWeight="Bold" />
+                    <TextBlock Text="Value" Grid.Row="0" Grid.Column="1" Background="#F5F5F5" Height="25"
+                               Margin="0,0,0,10"
+                               Style="{StaticResource TextStyle }" FontWeight="Bold"/>
+
+                    <!-- Row 1 -->
+                    <TextBlock Text="Barcode" Grid.Row="1" Grid.Column="0" 
+                               Style="{StaticResource TextStyle}" />
+                    <TextBlock Text="BarcodeNumber" Grid.Row="1" Grid.Column="1"
+                               Style="{StaticResource TextStyle }"
+                               FontWeight="Normal"
+                               />
+
+                    <!-- Row 2 -->
+                    <TextBlock Text="Name" Grid.Row="2" Grid.Column="0" Style="{StaticResource TextStyle}" />
+                    <TextBlock Text="Experiment Name" Grid.Row="2" Grid.Column="1" 
+                               Style="{StaticResource TextStyle}" FontWeight="Normal" />
+
+                    <!-- Row 3 -->
+                    <TextBlock Text="Plate Name" Grid.Row="3" Grid.Column="0" Style="{StaticResource TextStyle}" />
+                    <TextBlock Text="Plate Name" Grid.Row="3" Grid.Column="1" 
+                               Style="{StaticResource TextStyle}" FontWeight="Normal"/>
+
+                    <!-- Row 4 -->
+                    <TextBlock Text="RM Experiment ID" Grid.Row="4" Grid.Column="0" Style="{StaticResource TextStyle}" />
+                    <TextBlock Text="Experiment ID Number" Grid.Row="4" Grid.Column="1" 
+                               Style="{StaticResource TextStyle}" FontWeight="Normal"/>
+
+                    <!-- Row 5 -->
+                    <TextBlock Text="RM Plate ID" Grid.Row="5" Grid.Column="0" Style="{StaticResource TextStyle}" />
+                    <TextBlock Text="ID Number" Grid.Row="5" Grid.Column="1" FontWeight="Normal" />
+
+                    <!-- Row 6 -->
+                    <TextBlock Text="Status" Grid.Row="6" Grid.Column="0" Style="{StaticResource TextStyle}" />
+                    <TextBlock Text="Dispensed" Grid.Row="6" Grid.Column="1" 
+                               Style="{StaticResource TextStyle}" FontWeight="Normal"/>
+                </Grid>
+                
+
+            </Grid>
+</UserControl>

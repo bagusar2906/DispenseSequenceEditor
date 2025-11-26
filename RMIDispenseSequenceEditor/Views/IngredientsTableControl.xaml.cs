@@ -60,8 +60,6 @@ namespace RMIDispenseSequenceEditor.Views
           new Uri( "/RMIDispenseSequenceEditor;component/Styles/IngredientsColors.xaml", UriKind.Relative ) );
 
       IEasingFunction ease = new QuadraticEase { EasingMode = EasingMode.EaseOut };
-      var simulatedGrids = new List<Grid>();
-      var colorAnimations = new List<ColorAnimation>();
       // Sort by insertion order
       var ordered = vm.InsertSequence.OrderBy( kv => kv.Key ).ToList();
 

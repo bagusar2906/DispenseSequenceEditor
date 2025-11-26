@@ -5,7 +5,8 @@
         Title="Dispense Sequence Editor" Height="650" Width="900">
 
     <Grid>
-        <views:DispenseSequenceEditorControl />
+        <views:ExperimentInfoControl />
+        <!-- <views:DispenseSequenceEditorControl /> -->
         <!-- <views:DispenseProtocolEditorControl/> -->
     </Grid>
 </Window>

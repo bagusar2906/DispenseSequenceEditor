@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="RMIDispenseSequenceEditor.Views.DispensePropertiesControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="200" d:DesignWidth="500">
+    <StackPanel>
+    <Grid Background="#F5F5F5"  Height="48" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Dispensing Properties" 
+                           Margin="5,0,0,0"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Style="{StaticResource TextStyle}"/>
+                <Button Grid.Column="1" 
+                        Margin="0,0,5,0"
+                        FontFamily="Roboto"
+                        Background="#2F80ED"
+                        Foreground="#FFFFFF"
+                    Content="Edit"
+                    Height="20"
+                    Width="85"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center" />
+            </Grid>
+            <!-- ========== DISPENSING PROTOCOL PANEL ========== -->
+            <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="4" >
+                <StackPanel>
+
+                    <!-- Header with Button -->
+                    <DockPanel>
+                        <TextBlock Margin="5,2,0,0" Text="Dispensing Protocol"
+                                   VerticalAlignment="Center"
+                                   Style="{StaticResource TextStyle}"
+                                   FontWeight="Normal"/>
+                        <Button Margin="0,5,5,0"
+                                Content="Customize"
+                                DockPanel.Dock="Right"
+                                Height="20"
+                                Width="90"
+                                HorizontalAlignment="Right" />
+                    </DockPanel>
+
+                    <!-- Numbered List with Chips on Right -->
+                    <Grid Margin="5,5,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Text="1" />
+                        <TextBlock Grid.Column="1" Text="Protein" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="2" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="Well" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="3" />
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="Seed" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="4" />
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="Additive" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="5" />
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="Fragment" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            </StackPanel>
+</UserControl>
